@@ -22,3 +22,13 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+.vscode/
+.kilocode
+.memory-bank
+
+.tables.md
+.tab;es.md
+
+.darkmodeswitch.md
+.designBreif.md

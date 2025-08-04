@@ -1,0 +1,12 @@
+---
+import Welcome from "../../components/Welcome.astro";
+import Layout from "../../layouts/Layout.astro";
+import { createTranslator } from "../../i18n/utils";
+
+const t = createTranslator("en");
+const pageTitle = t("site.title");
+---
+
+<Layout title={pageTitle}>
+  <Welcome />
+</Layout>

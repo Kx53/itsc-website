@@ -1,0 +1,187 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { createTranslator } from "../../i18n/utils";
+import DocumentLink from "../../components/DocumentLink.vue";
+
+const t = createTranslator(Astro.currentLocale);
+const pageTitle = `${t("about.title")} - ${t("site.title")}`;
+
+const qualityAssuranceLinks = [
+  {
+    title: t("about.quality.year2564"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2563"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2562"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2561"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2560"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2559"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2558"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2557"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2556"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2555"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2554"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2553"),
+    url: "#",
+  },
+];
+
+const announcementLinks = [
+  {
+    title: t("about.announcements.policy1"),
+    url: "#",
+  },
+  {
+    title: t("about.announcements.policy2"),
+    url: "#",
+  },
+  {
+    title: t("about.announcements.policy3"),
+    url: "#",
+  },
+  {
+    title: t("about.announcements.policy4"),
+    url: "#",
+  },
+];
+---
+
+<Layout title={pageTitle}>
+  <div class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <section class="text-center mb-16">
+      <h1 class="text-4xl font-bold">{t("about.title")}</h1>
+      <p class="text-xl mt-2 text-base-content/80">{t("about.subtitle")}</p>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">
+        {t("about.visionMission.title")}
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Vision Card -->
+        <div class="bg-base-200 p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold mb-4">{t("about.vision.title")}</h3>
+          <p class="text-base-content/90">{t("about.vision.description")}</p>
+        </div>
+        <!-- Mission Card -->
+        <div class="bg-base-200 p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold mb-4">{t("about.mission.title")}</h3>
+          <ul class="space-y-2 list-inside text-base-content/90">
+            <li>{t("about.mission.description1")}</li>
+            <li>{t("about.mission.description2")}</li>
+            <li>{t("about.mission.description3")}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section class="mb-16 text-center">
+      <h2 class="text-3xl font-bold mb-8">{t("about.goals.title")}</h2>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto"
+      >
+        <div
+          class="bg-base-300 p-6 rounded-lg flex items-center justify-center h-28 shadow-lg"
+        >
+          <p class="text-2xl font-bold">ITSC-SMART</p>
+        </div>
+        <div
+          class="bg-base-300 p-6 rounded-lg flex items-center justify-center h-28 shadow-lg"
+        >
+          <p class="text-2xl font-bold">ITSC-Reform</p>
+        </div>
+        <div
+          class="bg-base-300 p-6 rounded-lg flex items-center justify-center h-28 shadow-lg"
+        >
+          <p class="text-2xl font-bold">ITSC-Transform</p>
+        </div>
+        <div
+          class="bg-base-300 p-6 rounded-lg flex items-center justify-center h-28 shadow-lg"
+        >
+          <p class="text-2xl font-bold">ITSC-GO</p>
+        </div>
+      </div>
+      <!-- Personnel Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-8 text-center">
+          {t("about.personnel.title")}
+        </h2>
+        <div class="flex justify-center bg-base-200 p-4 rounded-lg shadow-md">
+          <div
+            class="w-full h-96 bg-base-300 rounded-lg flex items-center justify-center"
+          >
+            <p class="text-base-content/50">Image Placeholder</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Quality Assurance Section -->
+    <section class="mb-16 max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-4 text-center">
+        {t("about.quality.title")}
+      </h2>
+      <p class="text-center mb-2 text-base-content/80">
+        {t("about.quality.description")}
+      </p>
+      <p class="text-center font-bold mb-8 text-base-content/90">
+        {t("about.quality.report")}
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+        {
+          qualityAssuranceLinks.map((link) => (
+            <DocumentLink client:load title={link.title} url={link.url} />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-8 text-center">
+        {t("about.announcements.title")}
+      </h2>
+      <div class="space-y-2">
+        {
+          announcementLinks.map((link) => (
+            <DocumentLink client:load title={link.title} url={link.url} />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>

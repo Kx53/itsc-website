@@ -1,0 +1,241 @@
+---
+import Layout from "../layouts/Layout.astro";
+import IconifyIcon from "../components/IconifyIcon.vue";
+import DocumentLink from "../components/DocumentLink.vue";
+import { createTranslator } from "../i18n/utils";
+
+const t = createTranslator(Astro.currentLocale);
+const pageTitle = `${t("about.title")} - ${t("site.title")}`;
+
+const qualityAssuranceLinks = [
+  {
+    title: t("about.quality.year2564"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2563"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2562"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2561"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2560"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2559"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2558"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2557"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2556"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2555"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2554"),
+    url: "#",
+  },
+  {
+    title: t("about.quality.year2553"),
+    url: "#",
+  },
+];
+
+const announcementLinks = [
+  {
+    title: t("about.announcements.policy1"),
+    url: "#",
+  },
+  {
+    title: t("about.announcements.policy2"),
+    url: "#",
+  },
+  {
+    title: t("about.announcements.policy3"),
+    url: "#",
+  },
+  {
+    title: t("about.announcements.policy4"),
+    url: "#",
+  },
+];
+---
+
+<Layout title={pageTitle} removeMainPadding={true}>
+  {/* This container will be pinned and its sections will be animated */}
+  <div class="scrolling-sections-container">
+    <div class="scrolling-sections">
+      {/* Section 0: Hero */}
+      <section class="scroll-section hero bg-base-200 relative">
+        <div class="content-wrapper hero-content text-center">
+          <div class="max-w-md">
+            <h1 class="text-5xl font-bold">{t("about.title")}</h1>
+            <p class="py-6">{t("about.subtitle")}</p>
+          </div>
+        </div>
+        {/* Scroll Down Indicator */}
+        <div
+          class="scroll-indicator-wrapper absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span class="scroll-indicator-text">{t("common.scrollDown")}</span>
+          <IconifyIcon
+            icon="iconamoon:arrow-down-2-thin"
+            className="scroll-indicator-icon"
+            client:load
+          />
+        </div>
+      </section>
+
+      {/* Section 1: Vision & Mission */}
+      <section class="scroll-section bg-base-100">
+        <div class="content-wrapper container mx-auto px-8">
+          <h2 class="text-4xl font-bold text-center mb-12">
+            {t("about.visionMission.title")}
+          </h2>
+          <div class="space-y-12">
+            <div>
+              <h3 class="text-3xl font-bold mb-4">{t("about.vision.title")}</h3>
+              <p class="text-lg">
+                {t("about.vision.description")}
+              </p>
+            </div>
+            <div>
+              <h3 class="text-3xl font-bold mb-4">
+                {t("about.mission.title")}
+              </h3>
+              <div class="space-y-2 text-lg">
+                <p>{t("about.mission.description1")}</p>
+                <p>{t("about.mission.description2")}</p>
+                <p>{t("about.mission.description3")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 2: Goals */}
+      <section class="scroll-section bg-base-300">
+        <div
+          class="content-wrapper container mx-auto flex h-full flex-col items-center justify-center px-8"
+        >
+          <h2 class="text-4xl font-bold text-center mb-12">
+            {t("about.goals.title")}
+          </h2>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-5xl"
+          >
+            <div
+              class="card h-64 flex items-center justify-center bg-base-100 text-base-content shadow-xl"
+            >
+              <h3 class="text-2xl font-bold">ITSC-SMART</h3>
+            </div>
+            <div
+              class="card h-64 flex items-center justify-center bg-base-100 text-base-content shadow-xl"
+            >
+              <h3 class="text-2xl font-bold">ITSC-Reform</h3>
+            </div>
+            <div
+              class="card h-64 flex items-center justify-center bg-base-100 text-base-content shadow-xl"
+            >
+              <h3 class="text-2xl font-bold">ITSC-Transform</h3>
+            </div>
+            <div
+              class="card h-64 flex items-center justify-center bg-base-100 text-base-content shadow-xl"
+            >
+              <h3 class="text-2xl font-bold">ITSC-GO</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  {/* Section 3: Personnel - Moved out of the scrolling container */}
+  <section class="py-20">
+    <div
+      class="container mx-auto flex flex-col items-center justify-center px-8"
+    >
+      <h2 class="text-4xl font-bold text-center mb-12">
+        {t("about.personnel.title")}
+      </h2>
+      <div
+        class="card bg-base-300 min-h-96 w-full max-w-4xl flex justify-center items-center shadow-xl"
+      >
+        <p class="text-xl text-base-content/60">(ส่วนแสดงผลบุคลากร)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality Assurance Section -->
+  <section class="bg-base-100 py-20 mb-16">
+    <div class="max-w-4xl mx-auto px-8">
+      <h2 class="text-3xl font-bold mb-4 text-center">
+        {t("about.quality.title")}
+      </h2>
+      <p class="text-center mb-2 text-base-content/80">
+        {t("about.quality.description")}
+      </p>
+      <p class="text-center font-bold mb-8 text-base-content/90">
+        {t("about.quality.report")}
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+        {
+          qualityAssuranceLinks.map((link) => (
+            <DocumentLink client:visible title={link.title} url={link.url} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Announcements Section -->
+  <section class="max-w-4xl mx-auto mb-20">
+    <h2 class="text-3xl font-bold mb-8 text-center">
+      {t("about.announcements.title")}
+    </h2>
+    <div class="space-y-2">
+      {
+        announcementLinks.map((link) => (
+          <DocumentLink client:visible title={link.title} url={link.url} />
+        ))
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /*
+    Hide the content wrapper of the 2nd section onwards to prevent FOUC.
+    GSAP will take over and make them visible during the animation.
+  */
+  .scrolling-sections .scroll-section:nth-child(n + 2) .content-wrapper {
+    visibility: hidden;
+  }
+</style>
+
+<script>
+  import {
+    initAnimations,
+    killAnimations,
+  } from "../script/about-animations.js";
+
+  document.addEventListener("astro:page-load", initAnimations);
+  document.addEventListener("astro:before-swap", killAnimations);
+</script>

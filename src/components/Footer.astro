@@ -1,0 +1,73 @@
+---
+import IconifyIcon from "./IconifyIcon.vue";
+import { createTranslator } from "../i18n/utils";
+
+const t = createTranslator(Astro.currentLocale);
+---
+
+<footer class="footer sm:footer-horizontal bg-base-100 text-base-content p-20">
+  <aside>
+    <img src="/logobar.png" alt="ITSC Logo" class="w-60 mb-4" loading="lazy" />
+    <p class="text-lg font-bold">
+      {t("itsc.department")}<br />{t("university.name")}
+    </p>
+    <div class="flex gap-4 mt-4">
+      <a
+        href="https://www.facebook.com/rsu.itsc"
+        target="_blank"
+        aria-label="Facebook"
+      >
+        <IconifyIcon
+          icon="logos:facebook"
+          className="w-10 h-10"
+          client:visible
+        />
+      </a>
+      <a
+        href="https://www.youtube.com/channel/UC060f4K0IdNMtTyBW1d6znA"
+        target="_blank"
+        aria-label="YouTube"
+      >
+        <IconifyIcon
+          icon="logos:youtube-icon"
+          className="w-10 h-10"
+          client:visible
+        />
+      </a>
+    </div>
+  </aside>
+  <nav>
+    <h6 class="footer-title">{t("common.contact")}</h6>
+    <p>{t("itsc.address")}</p>
+    <p>{t("itsc.address2")}</p>
+    <p>{t("itsc.address3")}</p>
+    <p>{t("itsc.phone")}</p>
+    <p>
+      {t("itsc.mail")}
+      <a href="mailto:helpdesk@rsu.ac.th" class="link link-hover"
+        >helpdesk@rsu.ac.th</a
+      >
+    </p>
+  </nav>
+  <nav>
+    <h6 class="footer-title">{t("common.menu")}</h6>
+    <a href="/service" class="link link-hover">{t("common.service")}</a>
+    <a href="/guide" class="link link-hover">{t("common.docs")}</a>
+    <a href="/techtips" class="link link-hover">{t("common.techtips")}</a>
+    <a href="/news" class="link link-hover">{t("common.news")}</a>
+    <a href="/resources" class="link link-hover">{t("common.forms")}</a>
+    <a href="/about" class="link link-hover">{t("common.about")}</a>
+  </nav>
+</footer>
+<footer
+  class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4"
+>
+  <aside>
+    <p>
+      Copyright © {new Date().getFullYear()} All rights reserved by ITSC.
+      <br /><a href="https://astro.build/" class="link link-hover"
+        >Made with Astro 🚀</a
+      >
+    </p>
+  </aside>
+</footer>

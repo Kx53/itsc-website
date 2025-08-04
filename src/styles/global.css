@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
+
+html {
+  font-size: 16px;
+}
+
+section[id] {
+  scroll-margin-top: 8rem; /* 128px */
+}
+
+/* Styles for the new scrolling animation layout */
+.scrolling-sections-container {
+  position: relative;
+  /* The height will be set by GSAP based on the number of sections */
+}
+
+.scrolling-sections {
+  display: grid;
+  /* This makes all direct children stack on top of each other */
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "stack";
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+}
+
+.scrolling-sections > .scroll-section {
+  /* This places each section into the same grid cell */
+  grid-area: stack;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-section .content-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-indicator-wrapper {
+  opacity: 0; /* Start hidden, will be faded in by GSAP */
+}
+
+.scroll-indicator-text {
+  font-family: "RSU", sans-serif;
+  font-size: 1.5rem;
+  color: hsl(var(--bc) / 0.7);
+  font-weight: bold;
+  text-transform: lowercase;
+}
+
+.scroll-indicator-icon {
+  width: 2rem;
+  height: 2rem;
+  color: hsl(var(--bc) / 0.7);
+}

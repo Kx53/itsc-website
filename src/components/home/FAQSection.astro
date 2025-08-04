@@ -1,0 +1,36 @@
+---
+import { createTranslator } from "@/i18n/utils";
+const t = createTranslator("th");
+---
+
+<section class="py-12 sm:py-16">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <h2 class="text-3xl font-bold text-center mb-8">{t("home.faq.title")}</h2>
+    <div class="space-y-4">
+      <details class="collapse collapse-arrow bg-base-200">
+        <summary class="collapse-title text-xl font-medium">
+          สวัสดีวันจันทร์
+        </summary>
+        <div class="collapse-content">
+          <p>สวัสดีวันอังคาร</p>
+        </div>
+      </details>
+      <details class="collapse collapse-arrow bg-base-200">
+        <summary class="collapse-title text-xl font-medium">
+          สวัสดีวันพุธ
+        </summary>
+        <div class="collapse-content">
+          <p>สวัสดีวันพฤหัสฯ</p>
+        </div>
+      </details>
+      <details class="collapse collapse-arrow bg-base-200">
+        <summary class="collapse-title text-xl font-medium">
+          สวัสดีวันศุกร์
+        </summary>
+        <div class="collapse-content">
+          <p>สวัสดีวันเสาร์</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>

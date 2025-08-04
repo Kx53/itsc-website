@@ -1,0 +1,22 @@
+---
+// src/components/Background3.astro
+// A subtle, light mesh gradient background inspired by the 21st.dev website.
+// It uses large, heavily blurred, low-opacity shapes to create a soft, ambient effect.
+---
+
+<div class="fixed inset-0 -z-20 h-full w-full bg-base-100" aria-hidden="true">
+  <div class="relative h-full w-full">
+    <div
+      class="absolute right-[5%] top-[-20%] h-[100vh] w-[50vw] rounded-full bg-primary/20 blur-[120px] filter"
+    >
+    </div>
+    <div
+      class="absolute bottom-[-30%] left-[-10%] h-[80vh] w-[60vw] rounded-full bg-secondary/20 blur-[120px] filter"
+    >
+    </div>
+    <div
+      class="absolute bottom-[-20%] right-[-15%] top-[-20%] h-[120vh] w-[30vw] -rotate-12 rounded-full bg-accent/20 blur-[100px] filter"
+    >
+    </div>
+  </div>
+</div>

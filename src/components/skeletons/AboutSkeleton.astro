@@ -1,0 +1,73 @@
+--- 
+// AboutSkeleton.astro - Skeleton component for the About page, using DaisyUI native skeleton
+---
+
+<div
+  class="w-full container mx-auto px-4 py-4"
+  role="status"
+  aria-live="polite"
+  aria-label="กำลังโหลดหน้าเกี่ยวกับเรา"
+>
+  <!-- Hero Section -->
+  <section class="text-center mb-16">
+    <div class="skeleton h-12 w-1/3 mx-auto rounded-lg mb-4"></div>
+    <div class="skeleton h-6 w-1/2 mx-auto rounded-md"></div>
+  </section>
+
+  <!-- Vision & Mission Section -->
+  <section class="mb-16">
+    <div class="skeleton h-10 w-1/4 mx-auto rounded-lg mb-8"></div>
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <!-- Vision Card Skeleton -->
+      <div class="skeleton h-48 w-full rounded-lg"></div>
+      <!-- Mission Card Skeleton -->
+      <div class="skeleton h-48 w-full rounded-lg"></div>
+    </div>
+  </section>
+
+  <!-- Goals Section -->
+  <section class="mb-16 text-center">
+    <div class="skeleton h-10 w-1/5 mx-auto rounded-lg mb-8"></div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+      <div class="skeleton h-28 w-full rounded-lg"></div>
+      <div class="skeleton h-28 w-full rounded-lg"></div>
+      <div class="skeleton h-28 w-full rounded-lg"></div>
+      <div class="skeleton h-28 w-full rounded-lg"></div>
+    </div>
+  </section>
+
+  <!-- Personnel Section -->
+  <section class="mb-16">
+    <div class="skeleton h-10 w-1/4 mx-auto rounded-lg mb-8"></div>
+    <div class="skeleton h-96 w-full max-w-4xl mx-auto rounded-lg"></div>
+  </section>
+
+  <!-- Quality Assurance & Announcements Section -->
+  <div class="grid md:grid-cols-2 gap-16 max-w-4xl mx-auto">
+    <!-- Quality Assurance Section -->
+    <section>
+      <div class="skeleton h-10 w-1/2 mx-auto rounded-lg mb-8"></div>
+      <div class="space-y-4">
+        <div class="skeleton h-8 w-full rounded-md"></div>
+        <div class="skeleton h-8 w-full rounded-md"></div>
+        <div class="skeleton h-8 w-full rounded-md"></div>
+        <div class="skeleton h-8 w-full rounded-md"></div>
+      </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section>
+      <div class="skeleton h-10 w-1/2 mx-auto rounded-lg mb-8"></div>
+      <div class="space-y-4">
+        <div class="skeleton h-8 w-full rounded-md"></div>
+        <div class="skeleton h-8 w-full rounded-md"></div>
+        <div class="skeleton h-8 w-full rounded-md"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Screen Reader Support -->
+  <div class="sr-only" aria-live="polite">
+    กำลังโหลดหน้าเกี่ยวกับเรา...
+  </div>
+</div>

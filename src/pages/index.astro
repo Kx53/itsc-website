@@ -1,11 +1,30 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "@/layouts/Layout.astro";
+import { createTranslator } from "@/i18n/utils";
+import HeroSection from "@/components/home/HeroSection.astro";
+import FeaturedSection from "@/components/home/FeaturedSection.astro";
+import HighlightSection from "@/components/home/HighlightSection.astro";
+import ServicesSection from "@/components/home/ServicesSection.astro";
+import PartnerLogos from "@/components/home/PartnerLogos.astro";
+import ManualsSection from "@/components/home/ManualsSection.astro";
+import ITKnowledgeSection from "@/components/home/ITKnowledgeSection.astro";
+import NewsSection from "@/components/home/NewsSection.astro";
+import FAQSection from "@/components/home/FAQSection.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const t = createTranslator("th");
+const pageTitle = t("site.title");
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={pageTitle}>
+  <main>
+    <HeroSection />
+    <FeaturedSection />
+    <HighlightSection />
+    <ServicesSection />
+    <PartnerLogos />
+    <ManualsSection />
+    <ITKnowledgeSection />
+    <NewsSection />
+    <FAQSection />
+  </main>
 </Layout>

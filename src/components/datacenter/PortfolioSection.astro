@@ -1,0 +1,83 @@
+---
+import { createTranslator } from "@/i18n/utils";
+
+const t = createTranslator("th");
+
+const servicesDetail = [
+  {
+    title: "Cloud Server",
+    subtitle: "Server Virtualization",
+    description:
+      "เรามี VM ที่อยู่ในการดูแลร่วม 80 เครื่อง มีทั้งระบบปฏิบัติการไม่ว่าจะเป็น Windows เช่น Windows Server 2003R2,2008R2,2012R2 Windows 10 และตระกูล Linux เช่น CentOS Debian และ Redhat เป็นต้น ทำงานเป็นโปรดักชั่นหลายระบบอยู่ในนั้น ซึ่งระบบทำงานตลอดเวลา",
+    imagePosition: "left",
+  },
+  {
+    title: "Web Hosting",
+    subtitle: "Web Server",
+    description:
+      "บริการพื้นที่ฝากเว็บไซต์ ให้บริการบนเว็บเซิร์ฟเวอร์ Microsoft IIS Apache และ NginX จำนวนไม่น้อยกว่า 20 เว็บไซต์",
+    imagePosition: "right",
+  },
+  {
+    title: "Web Security",
+    subtitle: "TLS Certificate",
+    description:
+      "ให้บริการ TLS Certificate สำหรับทุกเว็บไซต์ภายใต้ RSU ใช้งานได้กับทุกเว็บเซิร์ฟเวอร์",
+    imagePosition: "left",
+  },
+  {
+    title: "Google Workspace",
+    subtitle: "Google Workspace for Education Plus",
+    description:
+      "ให้บริการแอคเค้าท์สำหรับเข้าใช้งานทุกบริการที่อยู่ในโดนเมน RSU",
+    imagePosition: "right",
+  },
+  {
+    title: "Microsoft",
+    subtitle: "Education Services",
+    description:
+      "บริการระบบปฏิบัติการ Windows, Microsoft Office, Active Directory, Office365 A1, Azure Dev Tools",
+    imagePosition: "left",
+  },
+  {
+    title: "Other",
+    subtitle: "Other Services",
+    description: "บริการอื่นๆ นอกเหนือจากในแผนงาน",
+    imagePosition: "right",
+  },
+];
+---
+
+<section id="portfolio" class="container mx-auto px-4 py-16">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-bold mb-4">{t("datacenter.portfolio.title")}</h2>
+    <p class="text-xl text-base-content/60">
+      {t("datacenter.portfolio.subtitle")}
+    </p>
+  </div>
+
+  <div class="space-y-16">
+    {
+      servicesDetail.map((service, index) => (
+        <div
+          class={`flex flex-col sm:flex-row items-center gap-8 ${service.imagePosition === "right" ? "sm:flex-row-reverse" : ""}`}
+        >
+          <div class="w-full sm:w-1/2">
+            <div class="bg-base-200 rounded-lg h-64 flex items-center justify-center border border-base-content/20">
+              <span class="text-base-content/50 text-lg">
+                รูปภาพ {service.title}
+              </span>
+            </div>
+          </div>
+          <div class="w-full sm:w-1/2 text-left">
+            <h3 class="text-3xl font-bold mb-4">{service.title}</h3>
+            <h4 class="text-xl mb-6 text-base-content/80">
+              {service.subtitle}
+            </h4>
+            <p class="text-lg leading-relaxed">{service.description}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

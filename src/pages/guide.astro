@@ -1,0 +1,127 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { createTranslator } from "../i18n/utils";
+import GuideSkeleton from "../components/skeletons/GuideSkeleton.astro";
+
+const t = createTranslator("th");
+const pageTitle = t("common.service") + " - " + t("site.title");
+---
+
+<Layout title={pageTitle}>
+  <main>
+    {
+      /* 
+      แสดง Skeleton นี้ก่อน ขณะที่รอข้อมูลจริง
+      เมื่อข้อมูลจริงมาถึง ก็จะซ่อนส่วนนี้แล้วแสดงข้อมูลจริงแทน
+    */
+    }
+    <div id="guide-content-placeholder">
+      <GuideSkeleton />
+    </div>
+
+    {
+      /* 
+      <div id="guide-actual-content" class="hidden">
+        <GuideActualContent data={...} />
+      </div> 
+      */
+    }
+  </main>
+
+  <script>
+    // Progressive enhancement script for skeleton to actual content transition
+    document.addEventListener("DOMContentLoaded", function () {
+      const placeholder = document.getElementById("guide-content-placeholder");
+      const actualContent = document.getElementById("guide-actual-content");
+
+      // Simulate loading time (replace with actual data fetching)
+      setTimeout(() => {
+        if (placeholder && actualContent) {
+          // Add fade-out animation to skeleton
+          placeholder.style.transition = "opacity 0.3s ease-out";
+          placeholder.style.opacity = "0";
+
+          setTimeout(() => {
+            placeholder.classList.add("hidden");
+            actualContent.classList.remove("hidden");
+
+            // Add fade-in animation to actual content
+            actualContent.style.opacity = "0";
+            actualContent.style.transition = "opacity 0.3s ease-in";
+
+            setTimeout(() => {
+              actualContent.style.opacity = "1";
+            }, 50);
+          }, 300);
+        }
+      }, 2000); // Simulate 2 second loading time
+
+      // Handle keyboard navigation and screen reader announcements
+      const handleSkeletonFocus = (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (target && target.closest) {
+          const skeleton = target.closest('[role="status"]');
+          if (skeleton) {
+            skeleton.setAttribute("aria-live", "assertive");
+            skeleton.setAttribute("aria-atomic", "true");
+          }
+        }
+      };
+
+      // Add focus event listener for accessibility
+      document.addEventListener("focus", handleSkeletonFocus, true);
+
+      // Clean up when transitioning to actual content
+      if (actualContent) {
+        actualContent.addEventListener("transitionend", () => {
+          document.removeEventListener("focus", handleSkeletonFocus, true);
+        });
+      }
+    });
+
+    // Handle reduced motion preferences
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    if (prefersReducedMotion.matches) {
+      // Skip animations for users who prefer reduced motion
+      document.documentElement.style.setProperty("--animation-duration", "0s");
+    }
+
+    // Handle high contrast mode
+    const prefersHighContrast = window.matchMedia("(prefers-contrast: high)");
+
+    if (prefersHighContrast.matches) {
+      document.documentElement.classList.add("high-contrast");
+    }
+  </script>
+
+  <style>
+    /* Smooth transitions for skeleton to content */
+    #guide-content-placeholder,
+    #guide-actual-content {
+      transition: opacity var(--animation-duration, 0.3s) ease-in-out;
+    }
+
+    /* High contrast mode styles */
+    .high-contrast .skeleton {
+      background-color: #333 !important;
+      border: 2px solid #000 !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      main {
+        padding: 1rem;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      #guide-content-placeholder {
+        display: none;
+      }
+    }
+  </style>
+</Layout>

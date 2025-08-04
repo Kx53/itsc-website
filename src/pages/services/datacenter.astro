@@ -1,0 +1,60 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import { createTranslator } from "@/i18n/utils";
+import TeamHero from "@/components/TeamHero.astro";
+import TeamTimeline from "@/components/TeamTimeline.astro";
+import ServicesSection from "@/components/datacenter/ServicesSection.astro";
+import PortfolioSection from "@/components/datacenter/PortfolioSection.astro";
+import TeamSection from "@/components/datacenter/TeamSection.astro";
+
+const t = createTranslator("th");
+const pageTitle = `${t("datacenter.title")} - ${t("site.title")}`;
+
+// Timeline data สำหรับ Datacenter
+const datacenterTimeline = [
+  {
+    year: "2016",
+    title: "เปลี่ยนเทคโนโลยีเซิร์ฟเวอร์",
+    description:
+      "เป็นช่วงที่เครื่องเซิร์ฟที่เป็น Physical หมดประกันและบวกกับเทคโนโลยีที่เป็น Virtual Machine กำลังเป็นที่นิยม เราจึงเปลี่ยนให้เป็น Virtualized Infrastructure ทั้งหมด",
+  },
+  {
+    year: "2015",
+    title: "มีพนักงานเพิ่ม 1 คน",
+    description:
+      "เนื่องจากเดิมฝ่ายงานดาต้าเซ็นเตอร์มีพนักงานคนเดียว และพอดีกับจำนวนงานที่เพิ่มขึ้นในปีนั้นจนทำไม่ทัน จึงมีการขอพนักงานเพิ่มอีก 1 คน โดยให้เป็นการโอนย้ายมาตามความสมัครใจ",
+  },
+  {
+    year: "?",
+    title: "กำเนิดงานดาต้าเซ็นเตอร์",
+    description: "กำลังปรับปรุง",
+  },
+  {
+    year: "?",
+    title: "ที่มาของงานดาต้าเซ็นเตอร์",
+    description: "กำลังปรับปรุง",
+  },
+];
+---
+
+<TeamLayout title={pageTitle}>
+  <TeamHero
+    title={t("datacenter.hero.title")}
+    subtitle={t("datacenter.hero.subtitle")}
+  />
+  <ServicesSection />
+  <PortfolioSection />
+  <!-- Timeline -->
+  <section id="about" class="bg-base-200 py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">{t("datacenter.about.title")}</h2>
+        <p class="text-xl text-base-content/60">
+          {t("datacenter.about.subtitle")}
+        </p>
+      </div>
+      <TeamTimeline events={datacenterTimeline} />
+    </div>
+  </section>
+  <TeamSection />
+</TeamLayout>

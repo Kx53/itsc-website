@@ -1,0 +1,324 @@
+---
+import { createTranslator } from "../../i18n/utils";
+import FeaturedNewsCard from "./FeaturedNewsCard.astro";
+import MiniNewsCard from "./MiniNewsCard.astro";
+import NewsFilter from "./NewsFilter.astro";
+import Pagination from "./Pagination.astro";
+
+const t = createTranslator("th");
+
+// Sample news data - ในระบบจริงจะดึงจาก API หรือ CMS
+const featuredNews = [
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit. Vivamus iaculis lorem vitae consequat vehicula. Maecenas finibus lacinia elit, tempus facilisis nisi ornare et.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit. Vivamus iaculis lorem vitae consequat vehicula. Maecenas finibus lacinia elit, tempus facilisis nisi ornare et.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+];
+
+const miniNews = [
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+  {
+    title: "Lorem ipsum",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
+    imageUrl:
+      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    date: "DD MM YYYY",
+    readTime: "0 นาที",
+    category: "badge",
+    categoryColor: "bg-blue-500",
+  },
+];
+---
+
+<div class="news-actual-content min-h-screen">
+  <!-- Hero Section -->
+  <section class="hero-section py-16">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <!-- Main Title -->
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-6">
+        {t("common.news")}
+      </h1>
+
+      <!-- Subtitle -->
+      <p
+        class="text-lg md:text-xl text-base-content max-w-4xl mx-auto leading-relaxed"
+      >
+        ติดตามข่าวสารล่าสุด ประกาศสำคัญ
+        และความเคลื่อนไหวจากสำนักบริการเทคโนโลยีสารสนเทศ
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured News Section -->
+  <section class="featured-news-section py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Section Title -->
+      <h2 class="text-2xl md:text-3xl font-bold text-base-content mb-12">
+        ข่าวเด่น
+      </h2>
+
+      <!-- Featured News Cards Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        {
+          featuredNews.map((news) => (
+            <div class="featured-card-wrapper">
+              <FeaturedNewsCard
+                title={news.title}
+                description={news.description}
+                imageUrl={news.imageUrl}
+                date={news.date}
+                readTime={news.readTime}
+                category={news.category}
+                categoryColor={news.categoryColor}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- News Filter Section -->
+  <NewsFilter />
+
+  <!-- Mini News Grid Section -->
+  <section class="mini-news-section py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Mini News Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {
+          miniNews.map((news) => (
+            <div class="mini-card-wrapper">
+              <MiniNewsCard
+                title={news.title}
+                description={news.description}
+                imageUrl={news.imageUrl}
+                date={news.date}
+                readTime={news.readTime}
+                category={news.category}
+                categoryColor={news.categoryColor}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Pagination Section -->
+  <section class="pagination-section py-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <Pagination
+        currentPage={1}
+        totalPages={5}
+        maxVisiblePages={5}
+        prevText="Previous"
+        nextText="Next"
+      />
+    </div>
+  </section>
+</div>
+
+<style>
+  /* Hero Section Styles */
+  .hero-section {
+    background: linear-gradient(135deg, hsl(var(--b1)) 0%, hsl(var(--b2)) 100%);
+  }
+
+  /* Card Animation */
+  .featured-card-wrapper,
+  .mini-card-wrapper {
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .featured-card-wrapper:hover,
+  .mini-card-wrapper:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .hero-section h1 {
+      font-size: 1.875rem;
+    }
+
+    .hero-section p {
+      font-size: 1rem;
+    }
+
+    .featured-news-section h2 {
+      font-size: 1.5rem;
+    }
+
+    .grid.gap-8 {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-section h1 {
+      font-size: 1.5rem;
+    }
+
+    .hero-section p {
+      font-size: 0.875rem;
+    }
+
+    .featured-news-section h2 {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* Loading animation for cards */
+  .featured-card-wrapper,
+  .mini-card-wrapper {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .featured-card-wrapper:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .featured-card-wrapper:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .mini-card-wrapper:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .mini-card-wrapper:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .mini-card-wrapper:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .mini-card-wrapper:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .mini-card-wrapper:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+  .mini-card-wrapper:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Handle news filtering and pagination
+  function initializeNewsContent() {
+    // Listen for search events
+    document.addEventListener("newsSearch", (e) => {
+      const customEvent = e as CustomEvent;
+      const { searchTerm } = customEvent.detail;
+      console.log("Search term:", searchTerm);
+      // Implement search filtering logic here
+    });
+
+    // Listen for category filter events
+    document.addEventListener("newsCategoryFilter", (e) => {
+      const customEvent = e as CustomEvent;
+      const { categoryId, active } = customEvent.detail;
+      console.log("Category filter:", categoryId, active);
+      // Implement category filtering logic here
+    });
+
+    // Listen for page change events
+    document.addEventListener("pageChange", (e) => {
+      const customEvent = e as CustomEvent;
+      const { page } = customEvent.detail;
+      console.log("Page changed to:", page);
+      // Implement pagination logic here
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener("DOMContentLoaded", initializeNewsContent);
+
+  // Re-initialize for Astro page transitions
+  document.addEventListener("astro:page-load", initializeNewsContent);
+</script>

@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+// List of partner logo filenames located in the /public/brandsvg/ directory.
+const logoFiles = [
+  "Microsoft-365-w-name.svg",
+  "adobe-creative-cloud.svg",
+  "azure-2.svg",
+  "cisco-2.svg",
+  "logo-google-workspace.svg",
+  "new-logo-drive-google.svg",
+  "windows-3.svg",
+];
+---
+
+<style>
+  .marquee {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .marquee-content {
+    display: flex;
+    animation: marquee 40s linear infinite;
+  }
+
+  .marquee-group {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 100%;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+</style>
+
+<section class="py-12 bg-base-100">
+  <div class="marquee">
+    <div class="marquee-content">
+      <div class="marquee-group">
+        {
+          logoFiles.map((fileName) => (
+            <Image
+              src={`/brandsvg/${fileName}`}
+              alt={fileName.split(".")[0].replace(/-/g, " ")}
+              class="h-10 w-auto mx-8"
+              width={160}
+              height={40}
+              loading="lazy"
+              decoding="async"
+            />
+          ))
+        }
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        {
+          logoFiles.map((fileName) => (
+            <Image
+              src={`/brandsvg/${fileName}`}
+              alt={fileName.split(".")[0].replace(/-/g, " ")}
+              class="h-10 w-auto mx-8"
+              width={160}
+              height={40}
+              loading="lazy"
+              decoding="async"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

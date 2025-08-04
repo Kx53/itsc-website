@@ -1,0 +1,61 @@
+---
+import { createTranslator } from "@/i18n/utils";
+import IconifyIcon from "@/components/IconifyIcon.vue";
+import SwiperCarousel from "./SwiperCarousel.vue";
+import { getImage } from "astro:assets";
+
+const t = createTranslator("th");
+
+const rawPosts = [
+  {
+    title: "คู่มือการใช้งานระบบ A",
+    description: "รายละเอียดเกี่ยวกับคู่มือการใช้งานระบบ A สำหรับผู้เริ่มต้น",
+    image: "https://picsum.photos/seed/manual1/800/600",
+    link: "/docs/manual-a",
+  },
+  {
+    title: "คู่มือการตั้งค่า Wi-Fi",
+    description:
+      "ขั้นตอนการตั้งค่าการเชื่อมต่อ Wi-Fi ของมหาวิทยาลัยสำหรับอุปกรณ์ต่างๆ",
+    image: "https://picsum.photos/seed/manual2/800/600",
+    link: "/docs/manual-wifi",
+  },
+  {
+    title: "คู่มือการใช้งาน E-mail",
+    description: "ทุกสิ่งที่คุณต้องรู้เกี่ยวกับการใช้งานอีเมลของมหาวิทยาลัย",
+    image: "https://picsum.photos/seed/manual3/800/600",
+    link: "/docs/manual-email",
+  },
+];
+
+const manualPosts = await Promise.all(
+  rawPosts.map(async (post) => {
+    const optimizedImage = await getImage({
+      src: post.image,
+      width: 800,
+      height: 600,
+    });
+    return {
+      ...post,
+      optimizedImage,
+    };
+  })
+);
+---
+
+<section class="py-12 sm:py-16">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-3xl font-bold">{t("home.manuals.title")}</h2>
+      <a href="/docs" class="btn btn-ghost">
+        {t("common.readMore")}
+        <IconifyIcon
+          icon="mdi:arrow-right"
+          className="w-4 h-4"
+          client:visible
+        />
+      </a>
+    </div>
+    <SwiperCarousel posts={manualPosts} client:visible />
+  </div>
+</section>

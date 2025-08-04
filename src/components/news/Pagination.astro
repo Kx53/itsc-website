@@ -1,0 +1,236 @@
+---
+export interface Props {
+  currentPage?: number;
+  totalPages?: number;
+  maxVisiblePages?: number;
+  prevText?: string;
+  nextText?: string;
+  showFirstLast?: boolean;
+  onPageChange?: string;
+}
+
+const {
+  currentPage = 1,
+  totalPages = 10,
+  maxVisiblePages = 5,
+  prevText = "Previous",
+  nextText = "Next",
+  showFirstLast = true,
+} = Astro.props;
+
+// Calculate visible page range
+const getVisiblePages = (
+  current: number,
+  total: number,
+  maxVisible: number
+) => {
+  const pages: (number | string)[] = [];
+
+  if (total <= maxVisible) {
+    // Show all pages if total is less than max visible
+    for (let i = 1; i <= total; i++) {
+      pages.push(i);
+    }
+  } else {
+    // Calculate start and end of visible range
+    let start = Math.max(1, current - Math.floor(maxVisible / 2));
+    let end = Math.min(total, start + maxVisible - 1);
+
+    // Adjust start if we're near the end
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    // Add first page and ellipsis if needed
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) {
+        pages.push("...");
+      }
+    }
+
+    // Add visible page range
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    // Add ellipsis and last page if needed
+    if (end < total) {
+      if (end < total - 1) {
+        pages.push("...");
+      }
+      pages.push(total);
+    }
+  }
+
+  return pages;
+};
+
+const visiblePages = getVisiblePages(currentPage, totalPages, maxVisiblePages);
+const isPrevDisabled = currentPage <= 1;
+const isNextDisabled = currentPage >= totalPages;
+---
+
+<div class="pagination-container flex justify-center items-center py-8">
+  <div class="join">
+    <!-- Previous Button -->
+    <button
+      class={`btn join-item rounded-lg px-3 py-2 ${
+        isPrevDisabled
+          ? "btn-disabled opacity-50 cursor-not-allowed"
+          : "btn-ghost hover:bg-base-200"
+      }`}
+      data-page={isPrevDisabled ? currentPage : currentPage - 1}
+      disabled={isPrevDisabled}
+    >
+      <!-- Left Arrow Icon -->
+      <svg
+        class="w-4 h-4 mr-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 12 12"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.6"
+          d="M10.3333 5.66667H1M1 5.66667L5.66667 10.3333M1 5.66667L5.66667 1"
+        ></path>
+      </svg>
+      <span class="text-sm md:text-base font-normal">{prevText}</span>
+    </button>
+
+    <!-- Page Numbers -->
+    {
+      visiblePages.map((page) => {
+        if (page === "...") {
+          return (
+            <div class="btn join-item btn-ghost px-4 py-2 cursor-default">
+              <span class="text-sm md:text-base font-bold">...</span>
+            </div>
+          );
+        } else {
+          const pageNum = page as number;
+          const isActive = pageNum === currentPage;
+          return (
+            <button
+              class={`btn join-item rounded-lg px-3 py-2 ${
+                isActive
+                  ? "bg-neutral text-neutral-content"
+                  : "btn-ghost hover:bg-base-200"
+              }`}
+              data-page={pageNum}
+            >
+              <span class="text-sm md:text-base font-normal">{pageNum}</span>
+            </button>
+          );
+        }
+      })
+    }
+
+    <!-- Next Button -->
+    <button
+      class={`btn join-item rounded-lg px-3 py-2 ${
+        isNextDisabled
+          ? "btn-disabled opacity-50 cursor-not-allowed"
+          : "btn-ghost hover:bg-base-200"
+      }`}
+      data-page={isNextDisabled ? currentPage : currentPage + 1}
+      disabled={isNextDisabled}
+    >
+      <span class="text-sm md:text-base font-normal">{nextText}</span>
+      <!-- Right Arrow Icon -->
+      <svg
+        class="w-4 h-4 ml-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 12 12"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.6"
+          d="M1 5.66667H10.3333M10.3333 5.66667L5.66667 1M10.3333 5.66667L5.66667 10.3333"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  // Handle pagination clicks
+  function initializePagination() {
+    const paginationButtons = document.querySelectorAll("[data-page]");
+
+    paginationButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        const page = parseInt(target.dataset.page || "1");
+
+        if (!target.disabled && page) {
+          // Dispatch custom event for page change
+          document.dispatchEvent(
+            new CustomEvent("pageChange", {
+              detail: { page },
+            })
+          );
+
+          // Optional: Update URL with page parameter
+          const url = new URL(window.location.href);
+          url.searchParams.set("page", page.toString());
+          window.history.pushState({}, "", url.toString());
+        }
+      });
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener("DOMContentLoaded", initializePagination);
+
+  // Re-initialize for Astro page transitions
+  document.addEventListener("astro:page-load", initializePagination);
+</script>
+
+<style>
+  .pagination-container .join .btn {
+    border: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .pagination-container .join .btn:hover:not(.btn-disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .pagination-container .join .btn.btn-disabled {
+    background: var(--fallback-b2, oklch(var(--b2) / 1));
+    color: var(--fallback-bc, oklch(var(--bc) / 0.5));
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .pagination-container .join {
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .pagination-container .join .btn {
+      min-height: 2.5rem;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .pagination-container .join .btn span {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pagination-container .join .btn span {
+      display: none;
+    }
+
+    .pagination-container .join .btn svg {
+      margin: 0;
+    }
+  }
+</style>

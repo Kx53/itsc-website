@@ -1,0 +1,55 @@
+---
+import { createTranslator } from "@/i18n/utils";
+import SwiperCarousel from "./SwiperCarousel.vue";
+import { getImage } from "astro:assets";
+
+const t = createTranslator("th");
+
+const rawPosts = [
+  {
+    title: "Lorem ipsum dolor sit amet",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit. Vivamus iaculis lorem vitae consequat vehicula.",
+    image: "https://picsum.photos/seed/highlight1/800/600",
+    link: "/blog/highlight-1",
+  },
+  {
+    title: "หัวข้อไฮไลต์ที่สอง",
+    description:
+      "รายละเอียดสำหรับโพสต์ไฮไลต์ที่สอง แสดงถึงความสามารถในการเลื่อนสไลด์ได้",
+    image: "https://picsum.photos/seed/highlight2/800/600",
+    link: "/blog/highlight-2",
+  },
+  {
+    title: "Highlight Post Number Three",
+    description:
+      "This is the description for the third highlight post, demonstrating the carousel functionality.",
+    image: "https://picsum.photos/seed/highlight3/800/600",
+    link: "/blog/highlight-3",
+  },
+];
+
+const highlightPosts = await Promise.all(
+  rawPosts.map(async (post) => {
+    const optimizedImage = await getImage({
+      src: post.image,
+      width: 800,
+      height: 600,
+      loading: "lazy",
+    });
+    return {
+      ...post,
+      optimizedImage,
+    };
+  })
+);
+---
+
+<section class="py-12 sm:py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8">
+      {t("home.highlight.title")}
+    </h2>
+    <SwiperCarousel posts={highlightPosts} client:visible />
+  </div>
+</section>

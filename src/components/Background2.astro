@@ -1,0 +1,22 @@
+---
+// src/components/Background2.astro
+// A static, non-animated Aurora-style background component.
+// It uses blurred, colored shapes to create a soft, ambient effect.
+---
+
+<div class="fixed inset-0 -z-20 h-full w-full bg-base-100" aria-hidden="true">
+  <div class="relative h-full w-full">
+    <div
+      class="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-gradient-to-r from-primary to-secondary opacity-30 blur-3xl filter"
+    >
+    </div>
+    <div
+      class="absolute bottom-[-20%] left-0 right-[-10%] top-0 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-secondary to-accent opacity-30 blur-3xl filter"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 left-0 right-[-20%] top-[20%] h-[500px] w-[500px] rounded-full bg-gradient-to-r from-accent to-primary opacity-30 blur-3xl filter"
+    >
+    </div>
+  </div>
+</div>

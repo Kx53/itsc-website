@@ -1,0 +1,53 @@
+---
+// src/components/resource/ResourceTabsWrapper.astro
+---
+
+<div class="py-8 flex flex-col items-center">
+  <div role="tablist" class="tabs tabs-box bg-base-200 p-2">
+    <input
+      type="radio"
+      id="card-view-tab"
+      name="doc_tabs"
+      role="tab"
+      class="tab"
+      aria-label="มุมมองการ์ด"
+      value="card"
+      checked
+    />
+    <input
+      type="radio"
+      id="table-view-tab"
+      name="doc_tabs"
+      role="tab"
+      class="tab"
+      aria-label="มุมมองตาราง"
+      value="table"
+    />
+  </div>
+</div>
+
+<!-- This wrapper will now only control the tabs, not the content. -->
+<!-- The content will be handled in the parent page (resource.astro) -->
+<div class="py-6">
+  <!-- A default slot to place content based on tab selection -->
+  <slot />
+</div>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const tabs = document.querySelectorAll('input[name="doc_tabs"]');
+
+    function handleTabChange(event: Event) {
+      const target = event.target as HTMLInputElement;
+      const selectedView = target.value;
+      // Dispatch a custom event to notify the parent page
+      document.dispatchEvent(
+        new CustomEvent("view-change", { detail: { view: selectedView } })
+      );
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("change", handleTabChange);
+    });
+  });
+</script>

@@ -1,0 +1,30 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<section
+  id="home"
+  class="relative h-[470px] bg-gradient-to-r from-primary to-primary-focus flex items-center"
+  style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI0NzAiIHZpZXdCb3g9IjAgMCAxNDQwIDQ3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE0NDAiIGhlaWdodD0iNDcwIiBmaWxsPSIjMUU0MDdGIi8+CjxyZWN0IHg9IjUwIiB5PSIxMDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjcwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iMjAwIiB5PSIxMDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjcwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iMzUwIiB5PSIxMDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjcwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iMTAwIiBjeT0iMjAwIiByPSIxMCIgZmlsbD0iIzAwRkY0MSIvPgo8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyNTAiIHI9IjEwIiBmaWxsPSIjMDBGRjQxIi8+CjxjaXJjbGUgY3g9IjQwMCIgY3k9IjE4MCIgcj0iMTAiIGZpbGw9IiMwMEZGNDEiLz4KPHN2Zz4K'); background-size: cover; background-position: center;"
+>
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-md text-primary-content">
+      <h1 class="text-4xl font-bold mb-4 leading-tight">
+        {title}
+        {
+          subtitle && (
+            <>
+              <br />
+              {subtitle}
+            </>
+          )
+        }
+      </h1>
+    </div>
+  </div>
+</section>

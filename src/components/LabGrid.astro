@@ -1,0 +1,42 @@
+---
+// LabGrid.astro - Component for displaying computer labs in a grid layout
+export interface Lab {
+  title: string;
+  rooms: string;
+  details: string[];
+}
+
+import type { ui } from "@/i18n/ui";
+
+interface Props {
+  labs: Lab[];
+  t: (key: keyof (typeof ui)[keyof typeof ui]) => string;
+}
+
+const { labs, t } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
+  {
+    labs.map((lab) => (
+      <div class="bg-base-200 rounded-lg overflow-hidden shadow-lg">
+        <div class="px-6 py-4">
+          <h3 class="text-xl font-bold mb-2">{lab.title}</h3>
+          <p class="text-lg mb-2">{lab.rooms}</p>
+        </div>
+
+        <div class="h-48 overflow-hidden bg-base-200 flex items-center justify-center">
+          <span class="text-base-content/50">
+            {t("comlab.lab.image_placeholder")}
+          </span>
+        </div>
+
+        <div class="px-6 py-4">
+          {lab.details.map((detail) => (
+            <p class="py-1">{detail}</p>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>

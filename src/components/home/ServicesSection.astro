@@ -1,0 +1,128 @@
+---
+import { createTranslator, type TranslationKey } from "@/i18n/utils";
+import IconifyIcon from "@/components/IconifyIcon.vue";
+
+const t = createTranslator("th");
+
+const services: { titleKey: TranslationKey; icon: string; link: string }[] = [
+  {
+    titleKey: "home.service.datacenter",
+    icon: "ic:baseline-cloud",
+    link: "/services/datacenter",
+  },
+  {
+    titleKey: "home.service.comlab",
+    icon: "fa7-solid:computer",
+    link: "/services/comlab",
+  },
+  {
+    titleKey: "home.service.software",
+    icon: "eos-icons:software",
+    link: "/services/software",
+  },
+  {
+    titleKey: "home.service.support",
+    icon: "fluent:people-settings-24-filled",
+    link: "/services/support",
+  },
+  {
+    titleKey: "home.service.network",
+    icon: "carbon:network-4",
+    link: "/services/network",
+  },
+  {
+    titleKey: "home.service.service",
+    icon: "tdesign:service-filled",
+    link: "/services/service",
+  },
+];
+---
+
+<section class="bg-base-200 py-12 sm:py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-4">
+      {t("home.services.title")}
+    </h2>
+    <p class="text-center mb-10">{t("home.services.description")}</p>
+    <div
+      class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 text-center"
+    >
+      {
+        services.map((service) => (
+          <div class="service-card-wrapper">
+            <a
+              href={service.link}
+              class="flex flex-col items-center p-4 rounded-lg transition-transform duration-300 hover:scale-110 bg-base-200 relative z-10 h-full"
+            >
+              <IconifyIcon
+                icon={service.icon}
+                className="w-16 h-16 mb-4 text-primary"
+                client:load
+              />
+              <h3 class="font-semibold">{t(service.titleKey)}</h3>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .service-card-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-card-wrapper::before,
+  .service-card-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem; /* Corresponds to rounded-lg */
+    background-image: conic-gradient(
+      from var(--angle),
+      #ff4545,
+      #00ff99,
+      #006aff,
+      #ff0095,
+      #ff4545
+    );
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+    animation: 3s spin linear infinite;
+  }
+
+  .service-card-wrapper::before {
+    filter: blur(1.5rem);
+  }
+
+  .service-card-wrapper:hover::after {
+    opacity: 1;
+  }
+
+  .service-card-wrapper:hover::before {
+    opacity: 0.75;
+  }
+
+  @keyframes spin {
+    from {
+      --angle: 0deg;
+    }
+    to {
+      --angle: 360deg;
+    }
+  }
+</style>

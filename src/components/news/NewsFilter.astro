@@ -1,0 +1,159 @@
+---
+export interface Props {
+  searchPlaceholder?: string;
+  categories?: Array<{
+    id: string;
+    label: string;
+    active?: boolean;
+  }>;
+  onSearch?: string;
+  onCategorySelect?: string;
+}
+
+const {
+  searchPlaceholder = "ค้นหาข่าวสาร...",
+  categories = [
+    { id: "category1", label: "หมวดหมู่1", active: false },
+    { id: "category2", label: "หมวดหมู่2", active: false },
+    { id: "category3", label: "หมวดหมู่3", active: false },
+    { id: "category4", label: "หมวดหมู่4", active: false },
+    { id: "category5", label: "หมวดหมู่5", active: false },
+  ],
+} = Astro.props;
+---
+
+<div class="news-filter-section py-8">
+  <div class="max-w-7xl mx-auto px-6">
+    <!-- Search Bar -->
+    <div class="flex justify-center mb-8">
+      <div class="relative w-full max-w-md">
+        <div class="input-group">
+          <label
+            class="input input-bordered flex items-center gap-2 w-full bg-base-200 rounded-xl px-4 py-3"
+          >
+            <!-- Search Icon -->
+            <svg
+              class="w-4 h-4 opacity-70"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M13 6.5C13 7.93438 12.5344 9.25938 11.75 10.3344L15.7063 14.2937C16.0969 14.6844 16.0969 15.3188 15.7063 15.7094C15.3156 16.1 14.6812 16.1 14.2906 15.7094L10.3344 11.75C9.25938 12.5375 7.93438 13 6.5 13C2.90937 13 0 10.0906 0 6.5C0 2.90937 2.90937 0 6.5 0C10.0906 0 13 2.90937 13 6.5ZM6.5 11C7.09095 11 7.67611 10.8836 8.22208 10.6575C8.76804 10.4313 9.26412 10.0998 9.68198 9.68198C10.0998 9.26412 10.4313 8.76804 10.6575 8.22208C10.8836 7.67611 11 7.09095 11 6.5C11 5.90905 10.8836 5.32389 10.6575 4.77792C10.4313 4.23196 10.0998 3.73588 9.68198 3.31802C9.26412 2.90016 8.76804 2.56869 8.22208 2.34254C7.67611 2.1164 7.09095 2 6.5 2C5.90905 2 5.32389 2.1164 4.77792 2.34254C4.23196 2.56869 3.73588 2.90016 3.31802 3.31802C2.90016 3.73588 2.56869 4.23196 2.34254 4.77792C2.1164 5.32389 2 5.90905 2 6.5C2 7.09095 2.1164 7.67611 2.34254 8.22208C2.56869 8.76804 2.90016 9.26412 3.31802 9.68198C3.73588 10.0998 4.23196 10.4313 4.77792 10.6575C5.32389 10.8836 5.90905 11 6.5 11Z"
+              ></path>
+            </svg>
+
+            <!-- Search Input -->
+            <input
+              type="text"
+              class="grow bg-transparent border-none outline-none text-base-content placeholder:text-base-content/60"
+              placeholder={searchPlaceholder}
+              id="news-search"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-4">
+      {
+        categories.map((category) => (
+          <button
+            class={`btn rounded-xl px-4 py-2 text-sm md:text-base font-normal transition-all duration-200 ${
+              category.active
+                ? "bg-primary text-primary-content hover:bg-primary/90"
+                : "bg-base-200 text-base-content hover:bg-base-300"
+            }`}
+            data-category-id={category.id}
+            data-category-active={category.active}
+          >
+            {category.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  // Handle search functionality
+  const searchInput = document.getElementById(
+    "news-search"
+  ) as HTMLInputElement;
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      const searchTerm = target.value.toLowerCase();
+
+      // Dispatch custom event for search
+      document.dispatchEvent(
+        new CustomEvent("newsSearch", {
+          detail: { searchTerm },
+        })
+      );
+    });
+  }
+
+  // Handle category filter functionality
+  const categoryButtons = document.querySelectorAll("[data-category-id]");
+  categoryButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const target = e.target as HTMLButtonElement;
+      const categoryId = target.dataset.categoryId;
+      const isCurrentlyActive = target.dataset.categoryActive === "true";
+
+      // Toggle active state
+      const newActiveState = !isCurrentlyActive;
+      target.dataset.categoryActive = newActiveState.toString();
+
+      // Update button styling
+      if (newActiveState) {
+        target.className = target.className.replace(
+          "bg-base-200 text-base-content hover:bg-base-300",
+          "bg-primary text-primary-content hover:bg-primary/90"
+        );
+      } else {
+        target.className = target.className.replace(
+          "bg-primary text-primary-content hover:bg-primary/90",
+          "bg-base-200 text-base-content hover:bg-base-300"
+        );
+      }
+
+      // Dispatch custom event for category selection
+      document.dispatchEvent(
+        new CustomEvent("newsCategoryFilter", {
+          detail: { categoryId, active: newActiveState },
+        })
+      );
+    });
+  });
+
+  // Handle Astro page transitions
+  document.addEventListener("astro:page-load", () => {
+    // Re-initialize event listeners if needed
+    console.log("News filter initialized");
+  });
+</script>
+
+<style>
+  .input-group .input:focus-within {
+    outline: 2px solid hsl(var(--p));
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .news-filter-section .max-w-md {
+      max-width: 100%;
+    }
+
+    .news-filter-section .flex-wrap {
+      justify-content: center;
+    }
+
+    .news-filter-section .btn {
+      flex: 1;
+      min-width: 120px;
+      max-width: 150px;
+    }
+  }
+</style>

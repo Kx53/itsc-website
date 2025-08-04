@@ -1,0 +1,53 @@
+---
+// src/components/home/FeaturedSection.astro
+import { Image } from "astro:assets";
+
+const featuredPosts = [
+  {
+    href: "/blog/post-1",
+    imgSrc: "https://picsum.photos/seed/picsum1/600/400",
+    title: "หัวข้อ Blog ที่ 1",
+  },
+  {
+    href: "/blog/post-2",
+    imgSrc: "https://picsum.photos/seed/picsum2/600/400",
+    title: "หัวข้อ Blog ที่ 2",
+  },
+  {
+    href: "/blog/post-3",
+    imgSrc: "https://picsum.photos/seed/picsum3/600/400",
+    title: "หัวข้อ Blog ที่ 3",
+  },
+  {
+    href: "/blog/post-4",
+    imgSrc: "https://picsum.photos/seed/picsum4/600/400",
+    title: "หัวข้อ Blog ที่ 4",
+  },
+];
+---
+
+<section class="bg-base-100 py-12 sm:py-16">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {
+        featuredPosts.map((post, index) => (
+          <a
+            href={post.href}
+            class="card overflow-hidden bg-base-200 shadow-xl transform-gpu transition-transform duration-300 hover:scale-105"
+          >
+            <figure>
+              <Image
+                src={post.imgSrc}
+                alt={post.title}
+                width={600}
+                height={400}
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,248 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import { createTranslator } from "@/i18n/utils";
+import TeamTimeline from "@/components/TeamTimeline.astro";
+import IconifyIcon from "@/components/IconifyIcon.vue";
+
+const t = createTranslator("en");
+const pageTitle = `${t("datacenter.title")} - ${t("site.title")}`;
+
+// Timeline data for Datacenter
+const datacenterTimeline = [
+  {
+    year: "2016",
+    title: "Server Technology Upgrade",
+    description:
+      "As physical servers reached end of warranty and virtualization technology became popular, we transitioned to a fully Virtualized Infrastructure.",
+  },
+  {
+    year: "2015",
+    title: "Staff Expansion",
+    description:
+      "Due to increasing workload, the datacenter department which initially had only one employee, requested an additional staff member through voluntary transfer.",
+  },
+  {
+    year: "?",
+    title: "Datacenter Department Establishment",
+    description: "Under development",
+  },
+  {
+    year: "?",
+    title: "Origins of the Datacenter Department",
+    description: "Under development",
+  },
+];
+
+// Services data
+const serviceCards = [
+  {
+    title: "Cloud Server",
+    description:
+      "Virtual server services both on-premises and cloud-based | Veeam Backup | DR-Site",
+    icon: "ic:baseline-cloud",
+  },
+  {
+    title: "Google Workspace",
+    description: "Email account services, Drive, and other Google services",
+    icon: "ri:google-fill",
+  },
+  {
+    title: "Web Hosting",
+    description:
+      "Website hosting services for departments/faculties on IIS, Apache, and NginX web servers",
+    icon: "clarity:host-group-solid",
+  },
+  {
+    title: "Web Security",
+    description: "TLS Certificate services for websites under the RSU domain",
+    icon: "material-symbols:shield",
+  },
+];
+
+const servicesDetail = [
+  {
+    title: "Cloud Server",
+    subtitle: "Server Virtualization",
+    description:
+      "We manage approximately 80 VMs running various operating systems including Windows (Server 2003R2, 2008R2, 2012R2, Windows 10) and Linux distributions (CentOS, Debian, and Redhat). These systems run multiple production environments and operate 24/7.",
+    imagePosition: "left",
+  },
+  {
+    title: "Web Hosting",
+    subtitle: "Web Server",
+    description:
+      "Website hosting services on Microsoft IIS, Apache, and NginX web servers, supporting no fewer than 20 websites.",
+    imagePosition: "right",
+  },
+  {
+    title: "Web Security",
+    subtitle: "TLS Certificate",
+    description:
+      "TLS Certificate services for all websites under the RSU domain, compatible with all web servers.",
+    imagePosition: "left",
+  },
+  {
+    title: "Google Workspace",
+    subtitle: "Google Workspace for Education Plus",
+    description:
+      "Account services for accessing all services within the RSU domain.",
+    imagePosition: "right",
+  },
+  {
+    title: "Microsoft",
+    subtitle: "Education Services",
+    description:
+      "Windows operating system services, Microsoft Office, Active Directory, Office365 A1, Azure Dev Tools.",
+    imagePosition: "left",
+  },
+  {
+    title: "Other",
+    subtitle: "Other Services",
+    description: "Additional services beyond those in the standard plan.",
+    imagePosition: "right",
+  },
+];
+
+const teamMembers = [
+  {
+    name: "Kritsada Chuenharutai",
+    position: "Department Head",
+    image: "/placeholder-person.jpg",
+  },
+  {
+    name: "Tatpong Tepcha",
+    position: "Technical Officer",
+    image: "/placeholder-person.jpg",
+  },
+  {
+    name: "Suchat Upkaew",
+    position: "Technical Officer",
+    image: "/placeholder-person.jpg",
+  },
+];
+---
+
+<TeamLayout title={pageTitle}>
+  <!-- Hero Section -->
+  <section
+    id="home"
+    class="relative h-[470px] bg-gradient-to-r from-primary to-primary-focus flex items-center"
+    style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI0NzAiIHZpZXdCb3g9IjAgMCAxNDQwIDQ3MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE0NDAiIGhlaWdodD0iNDcwIiBmaWxsPSIjMUU0MDdGIi8+CjxyZWN0IHg9IjUwIiB5PSIxMDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjcwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iMjAwIiB5PSIxMDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjcwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iMzUwIiB5PSIxMDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjcwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iMTAwIiBjeT0iMjAwIiByPSIxMCIgZmlsbD0iIzAwRkY0MSIvPgo8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyNTAiIHI9IjEwIiBmaWxsPSIjMDBGRjQxIi8+CjxjaXJjbGUgY3g9IjQwMCIgY3k9IjE4MCIgcj0iMTAiIGZpbGw9IiMwMEZGNDEiLz4KPHN2Zz4K'); background-size: cover; background-position: center;"
+  >
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-md text-primary-content">
+        <h1 class="text-4xl font-bold mb-4 leading-tight">
+          {t("datacenter.hero.title")}<br />
+          {t("datacenter.hero.subtitle")}
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Overview -->
+  <section id="services" class="container mx-auto px-2 sm:px-4 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">{t("datacenter.services.title")}</h2>
+      <p class="text-xl text-base-content/60">
+        {t("datacenter.services.subtitle")}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {
+        serviceCards.map((service) => (
+          <div class="bg-base-200 rounded-lg p-6 h-64 flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+            <div class="flex justify-center mb-4">
+              <IconifyIcon
+                client:load
+                icon={service.icon}
+                className="w-10 h-10 text-base-content"
+              />
+            </div>
+            <h3 class="text-xl font-bold mb-4">{service.title}</h3>
+            <p class="text-base-content/80 flex-grow text-sm leading-relaxed">
+              {service.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Services Detail -->
+  <section id="portfolio" class="container mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">{t("datacenter.portfolio.title")}</h2>
+      <p class="text-xl text-base-content/60">
+        {t("datacenter.portfolio.subtitle")}
+      </p>
+    </div>
+
+    <div class="space-y-16">
+      {
+        servicesDetail.map((service, index) => (
+          <div
+            class={`flex flex-col sm:flex-row items-center gap-8 ${service.imagePosition === "right" ? "sm:flex-row-reverse" : ""}`}
+          >
+            <div class="w-full sm:w-1/2">
+              <div class="bg-base-200 rounded-lg h-64 flex items-center justify-center border border-base-content/20">
+                <span class="text-base-content/50 text-lg">
+                  {service.title} Image
+                </span>
+              </div>
+            </div>
+            <div class="w-full sm:w-1/2 text-left">
+              <h3 class="text-3xl font-bold mb-4">{service.title}</h3>
+              <h4 class="text-xl mb-6 text-base-content/80">
+                {service.subtitle}
+              </h4>
+              <p class="text-lg leading-relaxed">{service.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- About Us Timeline -->
+  <section id="about" class="bg-base-200 py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">{t("datacenter.about.title")}</h2>
+        <p class="text-xl text-base-content/60">
+          {t("datacenter.about.subtitle")}
+        </p>
+      </div>
+      <TeamTimeline events={datacenterTimeline} />
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section id="team" class="container mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">{t("datacenter.team.title")}</h2>
+      <p class="text-2xl mb-4 text-base-content/80">
+        {t("datacenter.team.subtitle")}
+      </p>
+      <p class="text-xl text-base-content/60 mb-16">
+        {t("datacenter.team.description")}
+      </p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 justify-items-center"
+    >
+      {
+        teamMembers.map((member) => (
+          <div class="text-center">
+            <div class="w-[134px] h-[134px] bg-base-200 rounded-[22px] mx-auto mb-4 flex items-center justify-center">
+              <span class="text-base-content/50">Image</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">{member.name}</h3>
+            <p class="text-lg text-base-content/60">{member.position}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</TeamLayout>

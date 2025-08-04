@@ -1,0 +1,275 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import TeamTimeline from "@/components/TeamTimeline.astro";
+import IconifyIcon from "@/components/IconifyIcon.vue";
+import { createTranslator } from "@/i18n/utils";
+import TeamHero from "@/components/TeamHero.astro";
+import LabGrid from "@/components/LabGrid.astro";
+
+const t = createTranslator("th");
+const pageTitle = `${t("comlab.title")} - ${t("site.title")}`;
+
+// Timeline data
+const comlabTimeline = [
+  {
+    year: "2020",
+    title: "เปลี่ยนเครื่องคอมพิวเตอร์ห้องปฏิบัติการคอมพิวเตอร์",
+    description:
+      "เป็นการปรับเปลี่ยนเครื่องตามวาระ โดยปรับเปลี่ยนเครื่องห้องปฏิบัติการคอมพิวเตอร์ 5-317 และ 5-318 จำนวนห้องละ 30 เครื่อง",
+  },
+  {
+    year: "2019",
+    title: "เปลี่ยนเครื่องคอมพิวเตอร์ห้องปฏิบัติการคอมพิวเตอร์",
+    description:
+      "เป็นการปรับเปลี่ยนเครื่องตามวาระ โดยปรับเปลี่ยนเครื่องห้องปฏิบัติการคอมพิวเตอร์ 5-313 และ 5-314 จำนวนห้องละ 30 เครื่อง",
+  },
+  {
+    year: "?",
+    title: "เปลี่ยนเครื่องคอมพิวเตอร์ห้องปฏิบัติการคอมพิวเตอร์",
+    description: "กำลังปรับปรุง",
+  },
+  {
+    year: "?",
+    title: "ปรับปรุงห้องปฏิบัติการคอมพิวเตอร์",
+    description: "อยู่ในแผนงาน",
+  },
+];
+
+// Services data
+const serviceCards = [
+  {
+    title: "ให้บริการห้อง",
+    description:
+      "บริการจัดการห้องเรียนและห้องปฏิบัติการคอมพิวเตอร์สำหรับการเรียนการสอนและกิจกรรมต่างๆ",
+    icon: "fa6-solid:computer",
+  },
+  {
+    title: "ให้บริการ Software",
+    description:
+      "บริการซอฟต์แวร์ลิขสิทธิ์สำหรับการใช้งานในองค์กร การเรียนการสอน และการวิจัย",
+    icon: "eos-icons:software",
+  },
+  {
+    title: "ให้บริการเพื่อการเรียน",
+    description: "บริการและเทคโนโลยีสนับสนุนการเรียนรู้ทั้งในและนอกห้องเรียน",
+    icon: "fluent:hat-graduation-12-filled",
+  },
+];
+
+// Lab Data
+const labData = [
+  {
+    title: t("comlab.lab.lab1.title"),
+    rooms: t("comlab.lab.lab1.rooms"),
+    details: [t("comlab.lab.lab1.detail1"), t("comlab.lab.lab1.detail2")],
+  },
+  {
+    title: t("comlab.lab.lab2.title"),
+    rooms: t("comlab.lab.lab2.rooms"),
+    details: [t("comlab.lab.lab2.detail1"), t("comlab.lab.lab2.detail2")],
+  },
+  {
+    title: t("comlab.lab.lab3.title"),
+    rooms: t("comlab.lab.lab3.rooms"),
+    details: [t("comlab.lab.lab3.detail1"), t("comlab.lab.lab3.detail2")],
+  },
+  {
+    title: t("comlab.lab.lab4.title"),
+    rooms: t("comlab.lab.lab4.rooms"),
+    details: [
+      t("comlab.lab.lab4.detail1"),
+      t("comlab.lab.lab4.detail2"),
+      t("comlab.lab.lab4.detail3"),
+      t("comlab.lab.lab4.detail4"),
+    ],
+  },
+  {
+    title: t("comlab.lab.lab5.title"),
+    rooms: t("comlab.lab.lab5.rooms"),
+    details: [
+      t("comlab.lab.lab5.detail1"),
+      t("comlab.lab.lab5.detail2"),
+      t("comlab.lab.lab5.detail3"),
+      t("comlab.lab.lab5.detail4"),
+      t("comlab.lab.lab5.detail5"),
+      t("comlab.lab.lab5.detail6"),
+    ],
+  },
+];
+
+const teamMembers = [
+  {
+    name: "ธีรพล ถนอมพร",
+    position: "เจ้าหน้าที่งานห้องปฏิบัติการ (2-205A)",
+  },
+  {
+    name: "พีรยศ ตันอุดรชัย",
+    position: "หัวหน้างานห้องปฏิบัติการ (5-313)",
+  },
+  {
+    name: "ณรงค์ ภิรมย์อยู่",
+    position: "เจ้าหน้าที่งานห้องปฏิบัติการ (6-A506)",
+  },
+  {
+    name: "กฤษฎา ชื่นหฤทัย",
+    position: "เจ้าหน้าที่งานห้องปฏิบัติการ (5-317)",
+  },
+  {
+    name: "นุเชษฐ์ พันธ์ขาว",
+    position: "เจ้าหน้าที่งานห้องปฏิบัติการ (6-A506)",
+  },
+  {
+    name: "ศักดิ์สิทธิ์ เขียนนิลศิริ",
+    position: "เจ้าหน้าที่งานห้องปฏิบัติการ (5-332)",
+  },
+];
+---
+
+<!-- Hero Section -->
+<TeamLayout
+  title={pageTitle}
+  footerAddressKey="teamfooter.address_b6r506"
+  footerPhoneKey="teamfooter.phone_comlab"
+>
+  <TeamHero title={t("comlab.hero.title")} />
+
+  <!-- Services Section -->
+  <section id="services" class="container mx-auto px-2 sm:px-4 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">{t("comlab.services.title")}</h2>
+      <p class="text-xl text-base-content/60">
+        {t("comlab.services.subtitle")}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {
+        serviceCards.map((service) => (
+          <div class="bg-base-200 rounded-lg p-6 h-64 flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+            <div class="flex justify-center mb-4">
+              <IconifyIcon
+                client:load
+                icon={service.icon}
+                className="w-10 h-10 text-base-content"
+              />
+            </div>
+            <h3 class="text-xl font-bold mb-4">{service.title}</h3>
+            <p class="text-base-content/80 flex-grow text-sm leading-relaxed">
+              {service.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Computer Labs -->
+  <section id="lab-services" class="py-16 bg-base-100">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">{t("comlab.lab.title")}</h2>
+        <p class="text-xl text-base-content/60">
+          {t("comlab.lab.subtitle")}
+        </p>
+      </div>
+
+      <LabGrid labs={labData} t={t} />
+    </div>
+  </section>
+
+  <!-- Services Detail -->
+  <section id="portfolio" class="container mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">{t("comlab.portfolio.title")}</h2>
+      <p class="text-xl text-base-content/60">
+        {t("comlab.portfolio.subtitle")}
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row items-start gap-8">
+      <!-- ข้อมูลด้านซ้าย -->
+      <div class="w-full lg:w-1/2">
+        <h3 class="text-2xl font-bold mb-4">
+          ระบบเครือข่ายห้องปฏิบัติการคอมพิวเตอร์
+        </h3>
+        <p class="text-xl mb-6">Windows Server 2012 R2</p>
+
+        <div class="space-y-4 text-lg">
+          <p>
+            บริการระบบยืนยันตัวบุคคลในส่วนห้องปฏิบัติการคอมพิวเตอร์
+            ระบบยืนยันตัวบุคคลห้องปฏิบัติการคอมพิวเตอร์ คือ
+            การให้บริการยืนยันตัวบุคคล (Authentication) ในรูปแบบ การ Login
+            เข้าระบบโดเมนห้องปฏิบัติการคอมพิวเตอร์ที่รองรับการให้ผู้ใช้งานลงชื่อเข้าใช้งานระบบ
+            (Login) เพื่อเข้าใช้งานภายในห้องปฏิบัติการคอมพิวเตอร์
+            เพิ่มความปลอดภัยที่เป็นมาตรฐานกลาง ลดระยะเวลา
+            และความยุ่งยากในการเข้าใช้งาน
+          </p>
+          <p>
+            เพื่อให้มหาวิทยาลัยมีระบบยืนยันตัวบุคคลในการเข้าใช้งาน
+            ที่รองรับการลงชื่อเข้าใช้งาน (login) การเรียนการสอน
+          </p>
+          <p>
+            เพื่อเพิ่มความปลอดภัยที่เป็นมาตรฐานกลางสำหรับการลงชื่อเข้าใช้เว็บไซต์สารสนเทศของมหาวิทยาลัย
+          </p>
+          <p>
+            เพื่ออำนวยความสะดวกแก่ผู้ใช้ในการลดระยะเวลาการเข้าใช้งานทดแทนระบบยืนยันตัวบุคคลปัจจุบัน
+            ลดความเสี่ยงการถูกโจมตี ในส่วนระบบการยืนยันตัวบุคคล
+            และลดภาระในการบริหารจัดการยืนยันตัวบุคคล
+          </p>
+        </div>
+      </div>
+      <!-- รูปภาพด้านขวา -->
+      <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
+        <div
+          class="bg-base-200 rounded-lg h-[550px] flex items-center justify-center"
+        >
+          <span class="text-base-content/50 text-lg">รูปภาพผลงาน</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section id="about" class="bg-base-200 py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">{t("comlab.about.title")}</h2>
+        <p class="text-xl text-base-content/60">
+          {t("comlab.about.subtitle")}
+        </p>
+      </div>
+      <TeamTimeline events={comlabTimeline} />
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section id="team" class="container mx-auto px-4 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold mb-4">
+        {t("datacenter.team.title")}
+      </h2>
+      <p class="text-2xl mb-4 text-base-content/80">
+        {t("datacenter.team.subtitle")}
+      </p>
+      <p class="text-xl text-base-content/60 mb-16">
+        {t("datacenter.team.description")}
+      </p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 justify-items-center"
+    >
+      {
+        teamMembers.map((member) => (
+          <div class="text-center">
+            <div class="w-[134px] h-[134px] bg-base-200 rounded-[22px] mx-auto mb-4 flex items-center justify-center">
+              <span class="text-base-content/50">รูปภาพ</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">{member.name}</h3>
+            <p class="text-lg text-base-content/60">{member.position}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</TeamLayout>
