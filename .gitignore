@@ -27,8 +27,8 @@ pnpm-debug.log*
 .kilocode
 .memory-bank
 
-.tables.md
-.tab;es.md
+tables.md*
+tab;es.md*
 
-.darkmodeswitch.md
-.designBreif.md
+darkmodeswitch.md*
+designBreif.md*
