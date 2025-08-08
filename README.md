@@ -13,8 +13,8 @@
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Astro 5.x
-- **Styling**: Tailwind CSS 4.x + DaisyUI
+- **Framework**: Astro 5.x **(Server Side Rendering Mode)**
+- **Styling**: Tailwind CSS 4.x + DaisyUI 5.x
 - **Internationalization**: Paraglide.js + Inlang
 - **Animations**: GSAP
 - **CMS**: Strapi integration
@@ -32,7 +32,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/itsc-website.git
+git clone https://github.com/Kx53/itsc-website.git
 cd itsc-website
 
 # Install dependencies
@@ -78,7 +78,7 @@ cp .env.example .env
 │   │   └── ...
 │   ├── layouts/          # Page layouts
 │   ├── pages/            # Route pages
-│   │   └── [locale]/     # Localized routes
+│   │   └── [locale]/     # Localized routes (Copy File เวอร์ชั่นภาษาไทยใส่ใน [locale] เพื่อใช้ภาษาอังกฤษจาก Paraglidejs)
 │   ├── paraglide/        # Generated i18n files
 │   ├── styles/           # Global styles
 │   ├── utils/            # Utility functions
