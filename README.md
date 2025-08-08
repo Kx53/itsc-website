@@ -32,8 +32,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/Kx53/itsc-website.git
-cd itsc-website
+git clone https://github.com/Kx53/itsc-website-frontend.git
+cd itsc-website-frontend
 
 # Install dependencies
 pnpm install
