@@ -1,13 +1,32 @@
 ---
 import IconifyIcon from "./IconifyIcon.vue"; // Import Vue component
-import {
-  createTranslator,
-  getLanguageSwitchUrl,
-  languages,
-} from "../i18n/utils";
+import * as m from "../paraglide/messages";
+import { localizeHref, deLocalizeHref, getLocale } from "../paraglide/runtime";
 
-const t = createTranslator(Astro.currentLocale);
-const currentLang = Astro.currentLocale || "th";
+// Define the interface for navigation items
+interface NavItem {
+  href: string;
+  text: string;
+}
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const currentLocale = getLocale();
+const currentPath = deLocalizeHref(Astro.url.pathname);
+
+// Default navigation items (fallback if no navItems prop is provided)
+const defaultNavItems: NavItem[] = [
+  { href: "#home", text: m.team_home() },
+  { href: "#services", text: m.team_services() },
+  { href: "#portfolio", text: m.team_portfolio() },
+  { href: "#about", text: m.team_about() },
+  { href: "#team", text: m.team_team() },
+  { href: "#contact", text: m.team_contact() },
+];
+
+const { navItems = defaultNavItems } = Astro.props;
 ---
 
 <div class="drawer">
@@ -60,36 +79,15 @@ const currentLang = Astro.currentLocale || "th";
 
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1 space-x-2">
-          <li>
-            <a href="#home" class="hover:text-base-content/70"
-              >{t("team.home")}</a
-            >
-          </li>
-          <li>
-            <a href="#services" class="hover:text-base-content/70"
-              >{t("team.services")}</a
-            >
-          </li>
-          <li>
-            <a href="#portfolio" class="hover:text-base-content/70"
-              >{t("team.portfolio")}</a
-            >
-          </li>
-          <li>
-            <a href="#about" class="hover:text-base-content/70"
-              >{t("team.about")}</a
-            >
-          </li>
-          <li>
-            <a href="#team" class="hover:text-base-content/70"
-              >{t("team.team")}</a
-            >
-          </li>
-          <li>
-            <a href="#contact" class="hover:text-base-content/70"
-              >{t("team.contact")}</a
-            >
-          </li>
+          {
+            navItems.map((item) => (
+              <li>
+                <a href={item.href} class="hover:text-base-content/70">
+                  {item.text}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
@@ -125,32 +123,40 @@ const currentLang = Astro.currentLocale || "th";
           </svg>
         </label>
 
+        <!-- Language Switcher -->
         <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+          <div
+            tabindex="0"
+            role="button"
+            class="btn btn-ghost btn-circle"
+            aria-label="Switch language"
+          >
             <IconifyIcon
               icon="material-symbols:language"
-              className="w-5 h-5"
+              className="h-5 w-5"
               client:load
             />
           </div>
           <ul
-            class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-32 p-2 shadow"
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow"
           >
-            {
-              Object.entries(languages).map(([langCode, langName]) => (
-                <li>
-                  <a
-                    href={getLanguageSwitchUrl(
-                      langCode as "th" | "en",
-                      Astro.url.pathname
-                    )}
-                    class={currentLang === langCode ? "active" : ""}
-                  >
-                    {langName}
-                  </a>
-                </li>
-              ))
-            }
+            <li>
+              <a
+                href={localizeHref(currentPath, { locale: "th" })}
+                class={currentLocale === "th" ? "active" : ""}
+              >
+                🇹🇭 ไทย
+              </a>
+            </li>
+            <li>
+              <a
+                href={localizeHref(currentPath, { locale: "en" })}
+                class={currentLocale === "en" ? "active" : ""}
+              >
+                🇺🇸 English
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -170,36 +176,15 @@ const currentLang = Astro.currentLocale || "th";
           <span class="ml-2">ITSC RSU</span>
         </a>
       </li>
-      <li>
-        <a href="#home" class="hover:text-base-content/70 py-3"
-          >{t("team.home")}</a
-        >
-      </li>
-      <li>
-        <a href="#services" class="hover:text-base-content/70 py-3"
-          >{t("team.services")}</a
-        >
-      </li>
-      <li>
-        <a href="#portfolio" class="hover:text-base-content/70 py-3"
-          >{t("team.portfolio")}</a
-        >
-      </li>
-      <li>
-        <a href="#about" class="hover:text-base-content/70 py-3"
-          >{t("team.about")}</a
-        >
-      </li>
-      <li>
-        <a href="#team" class="hover:text-base-content/70 py-3"
-          >{t("team.team")}</a
-        >
-      </li>
-      <li>
-        <a href="#contact" class="hover:text-base-content/70 py-3"
-          >{t("team.contact")}</a
-        >
-      </li>
+      {
+        navItems.map((item) => (
+          <li>
+            <a href={item.href} class="hover:text-base-content/70 py-3">
+              {item.text}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </div>

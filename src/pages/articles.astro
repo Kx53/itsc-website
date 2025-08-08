@@ -1,0 +1,100 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+
+// 1. ดึงข้อมูลจาก collection 'articles'
+const articles = await getCollection("articles");
+
+// 2. ดึง URL ของ Strapi มาจาก .env file เพื่อใช้สร้าง URL ของรูปภาพ (ถ้ามี)
+const strapiUrl = import.meta.env.STRAPI_URL;
+---
+
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>รายการบทความจาก Strapi</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background-color: #f0f2f5;
+        padding: 2rem;
+      }
+      h1 {
+        color: #1a202c;
+      }
+      .article-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: auto;
+      }
+      .article-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition:
+          transform 0.2s ease-in-out,
+          box-shadow 0.2s ease-in-out;
+      }
+      .article-card-link:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      }
+      .article-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        height: 100%;
+      }
+      .article-card-content {
+        padding: 1.5rem;
+      }
+      .article-card-content h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+      }
+      .article-card-content .author {
+        font-style: italic;
+        color: #4a5568;
+        margin-bottom: 1rem;
+      }
+      .article-card-content .preview {
+        margin: 0;
+        color: #2d3748;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>รายการบทความ</h1>
+    <p>ข้อมูลนี้ถูกดึงมาจาก Strapi CMS ผ่าน Astro Content Collections</p>
+
+    <div class="article-grid">
+      {
+        articles.map((article: any) => (
+          <a href={`/articles/${article.data.slug}`} class="article-card-link">
+            <article class="article-card">
+              <div class="article-card-content">
+                <h2>{article.data.title}</h2>
+
+                {article.data.author && (
+                  <div class="author">โดย: {article.data.author.username}</div>
+                )}
+
+                {/* แสดงเนื้อหาส่วนหนึ่งเป็น preview */}
+                {/* แสดงเนื้อหาส่วนหนึ่งเป็น preview, ตรวจสอบก่อนว่า content มีค่าหรือไม่ */}
+                {article.data.content && (
+                  <p class="preview">
+                    {article.data.content.substring(0, 150)}...
+                  </p>
+                )}
+              </div>
+            </article>
+          </a>
+        ))
+      }
+    </div>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+---
+export interface Post {
+  title: string;
+  description: string;
+  link: string;
+  optimizedImage: any; // Using 'any' to bypass the type issue for now
+}
+
+export interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="w-full">
+  <div class="lg:flex lg:items-center lg:justify-center lg:gap-4">
+    <!-- Desktop-only Prev Button -->
+    <button
+      id="carousel-swiper-button-prev"
+      class="hidden lg:block btn btn-circle"
+    >
+      ❮
+    </button>
+
+    <swiper-container
+      slides-per-view="1"
+      space-between="16"
+      loop="true"
+      pagination-clickable="true"
+      pagination-el=".swiper-pagination-custom"
+      navigation-prev-el="#carousel-swiper-button-prev"
+      navigation-next-el="#carousel-swiper-button-next"
+      class="w-full max-w-4xl"
+      breakpoints={JSON.stringify({
+        "768": {
+          spaceBetween: 50,
+        },
+      })}
+    >
+      {
+        posts.map((post) => (
+          <swiper-slide>
+            <div class="card lg:card-side bg-base-200 shadow-xl">
+              <figure class="lg:w-1/2">
+                <img
+                  src={post.optimizedImage.src}
+                  alt={post.title}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="card-body lg:w-1/2">
+                <h2 class="card-title text-2xl font-bold">{post.title}</h2>
+                <p class="py-4">{post.description}</p>
+                <div class="card-actions justify-end">
+                  <a href={post.link} class="btn btn-primary">
+                    อ่านต่อ
+                  </a>
+                </div>
+              </div>
+            </div>
+          </swiper-slide>
+        ))
+      }
+    </swiper-container>
+
+    <!-- Desktop-only Next Button -->
+    <button
+      id="carousel-swiper-button-next"
+      class="hidden lg:block btn btn-circle"
+    >
+      ❯
+    </button>
+  </div>
+  <!-- Custom Pagination -->
+  <div class="swiper-pagination-custom text-center mt-4"></div>
+</div>
+
+<script>
+  import { register } from "swiper/element/bundle";
+  register();
+</script>
+
+<style>
+  .swiper-pagination-custom .swiper-pagination-bullet {
+    background-color: hsl(
+      var(--bc) / 0.5
+    ); /* Base content color with opacity */
+    opacity: 1;
+  }
+  .swiper-pagination-custom .swiper-pagination-bullet-active {
+    background-color: hsl(var(--p)); /* Primary color */
+  }
+</style>

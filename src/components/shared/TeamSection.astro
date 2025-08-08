@@ -1,0 +1,62 @@
+---
+import TitledSection from "./TitledSection.astro";
+import OptimizedImage from "@/components/OptimizedImage.astro";
+
+interface TeamMember {
+  name: string;
+  role: string;
+  imageUrl?: string;
+}
+
+interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  members: TeamMember[];
+  class?: string;
+  gridCols?: string;
+}
+
+const {
+  id = "team",
+  title,
+  subtitle,
+  description,
+  members,
+  class: className = "py-16",
+  gridCols = "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+} = Astro.props;
+---
+
+<TitledSection
+  id={id}
+  title={title}
+  subtitle={subtitle}
+  description={description}
+  class={className}
+>
+  <div class={`grid ${gridCols} gap-x-8 gap-y-12 justify-items-center`}>
+    {
+      members.map((member) => (
+        <div class="text-center">
+          <div class="w-[134px] h-[134px] bg-base-200 rounded-[22px] mx-auto mb-4 flex items-center justify-center overflow-hidden">
+            {member.imageUrl ? (
+              <OptimizedImage
+                src={member.imageUrl}
+                alt={`Photo of ${member.name}`}
+                width={134}
+                height={134}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span class="text-base-content/50">รูปภาพ</span>
+            )}
+          </div>
+          <h3 class="text-xl font-bold mb-2">{member.name}</h3>
+          <p class="text-lg text-base-content/60">{member.role}</p>
+        </div>
+      ))
+    }
+  </div>
+</TitledSection>

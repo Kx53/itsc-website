@@ -1,39 +1,32 @@
 ---
-// src/components/resource/ResourceSearchAndFilter.astro
-// src/components/resource/ResourceSearchAndFilter.astro
+import SearchBox from "@/components/shared/SearchBox.astro";
+import * as m from "@/paraglide/messages";
 ---
 
 <section class="py-8">
   <!-- Search Box -->
   <div class="w-full flex justify-center mb-8 px-4">
-    <label class="input flex items-center gap-2">
-      <svg
-        class="h-[1em] opacity-50"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-      >
-        <g
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="2.5"
-          fill="none"
-          stroke="currentColor"
-        >
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </g>
-      </svg>
-      <input type="search" required placeholder="Search" aria-label="Search" />
-    </label>
+    <SearchBox id="resource-search" />
   </div>
 
   <!-- Filter Buttons -->
   <div class="flex justify-center">
-    <div class="btn-group">
-      <button class="btn btn-primary">ทั้งหมด</button>
-      <button class="btn">คู่มือ</button>
-      <button class="btn">แบบฟอร์ม</button>
-      <button class="btn">รายงาน</button>
+    <div id="resource-filter-buttons" class="btn-group">
+      <button class="btn btn-primary" data-filter="all"
+        >{m.resource_filter_all()}</button
+      >
+      <button class="btn" data-filter="คู่มือ"
+        >{m.resource_filter_manual()}</button
+      >
+      <button class="btn" data-filter="แบบฟอร์ม"
+        >{m.resource_filter_form()}</button
+      >
+      <button class="btn" data-filter="รายงาน"
+        >{m.resource_filter_report()}</button
+      >
+      <button class="btn" data-filter="นโยบาย"
+        >{m.resource_filter_policy()}</button
+      >
     </div>
   </div>
 </section>

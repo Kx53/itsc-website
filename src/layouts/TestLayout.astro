@@ -5,36 +5,18 @@ import { AstroFont } from "astro-font";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
-import {
-  createTranslator,
-  getRelativeLocaleUrl,
-  isValidLanguage,
-  defaultLang,
-} from "../i18n/utils";
+import * as m from "../paraglide/messages";
+import { getLocale, locales, localizeHref } from "../paraglide/runtime";
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
-const lang =
-  Astro.currentLocale && isValidLanguage(Astro.currentLocale)
-    ? Astro.currentLocale
-    : defaultLang;
-const t = createTranslator(Astro.currentLocale);
-
-// Generate alternate language URLs for hreflang
-const currentPath = Astro.url.pathname;
-const cleanPath =
-  lang === "th" ? currentPath : currentPath.replace(`/${lang}`, "");
-const alternateUrls = {
-  th: getRelativeLocaleUrl("th", cleanPath),
-  en: getRelativeLocaleUrl("en", cleanPath),
-};
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={getLocale()}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -48,7 +30,7 @@ const alternateUrls = {
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={t("site.description")} />
+    <meta name="description" content={m.site_description()} />
     <AstroFont
       config={[
         {
@@ -66,9 +48,20 @@ const alternateUrls = {
     />
 
     <!-- hreflang tags for SEO -->
-    <link rel="alternate" hreflang="th" href={alternateUrls.th} />
-    <link rel="alternate" hreflang="en" href={alternateUrls.en} />
-    <link rel="alternate" hreflang="x-default" href={alternateUrls.th} />
+    {
+      locales.map((lang) => (
+        <link
+          rel="alternate"
+          hreflang={lang}
+          href={localizeHref(Astro.url.pathname, { locale: lang })}
+        />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={localizeHref(Astro.url.pathname, { locale: "th" })}
+    />
 
     <title>{title}</title>
     <ClientRouter />

@@ -1,0 +1,95 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import * as m from "@/paraglide/messages";
+
+// Shared Components
+import HeroSection from "@/components/shared/HeroSection.astro";
+import ServicesSection from "@/components/shared/ServicesSection.astro";
+import PortfolioGrid from "@/components/shared/PortfolioGrid.astro";
+import TeamSection from "@/components/shared/TeamSection.astro";
+
+const pageTitle = `${m.admin_title()} - ${m.site_title()}`;
+
+// Define navigation items specific to admin page
+const navItems = [
+  { href: "#hero", text: m.team_home() },
+  { href: "#services", text: m.admin_nav_services() },
+  { href: "#service-desk", text: m.admin_nav_servicedesk() },
+  { href: "#team", text: m.team_team() },
+  { href: "#contact", text: m.team_contact() },
+];
+
+// Data for ServicesSection (Policy Section)
+const policyServices = [
+  { icon: "fa6-solid:calendar-days", title: m.admin_service_1_desc() },
+  { icon: "fluent-mdl2:learning-tools", title: m.admin_service_2_desc() },
+  { icon: "ix:work-case-filled", title: m.admin_service_3_desc() },
+  { icon: "iconamoon:certificate-badge-fill", title: m.admin_service_4_desc() },
+  { icon: "eos-icons:project", title: m.admin_service_5_desc() },
+  {
+    icon: "streamline-flex:warranty-badge-highlight-solid",
+    title: m.admin_service_6_desc(),
+  },
+];
+
+// Data for PortfolioGrid (Service Desk Section)
+const serviceDeskItems = [
+  m.admin_servicedesk_item_1(),
+  m.admin_servicedesk_item_2(),
+  m.admin_servicedesk_item_3(),
+  m.admin_servicedesk_item_4(),
+  m.admin_servicedesk_item_5(),
+  m.admin_servicedesk_item_6(),
+  m.admin_servicedesk_item_7(),
+  m.admin_servicedesk_item_8(),
+];
+
+// Data for TeamSection
+const teamMembers = [
+  {
+    name: m.admin_team_member_1_name(),
+    role: m.admin_team_member_1_role(),
+    imageUrl: "/path/to/patcharamon.jpg",
+  },
+  {
+    name: m.admin_team_member_2_name(),
+    role: m.admin_team_member_2_role(),
+    imageUrl: "/path/to/jutawan.jpg",
+  },
+  {
+    name: m.admin_team_member_3_name(),
+    role: m.admin_team_member_3_role(),
+    imageUrl: "/path/to/sunatta.jpg",
+  },
+];
+---
+
+<TeamLayout
+  title={pageTitle}
+  footerAddressKey="teamfooter_address_b1r207"
+  footerPhoneKey="teamfooter_phone_admin"
+  navItems={navItems}
+>
+  <HeroSection
+    title={m.admin_hero_title()}
+    imageUrl="/path/to/your/hero-image.jpg"
+  />
+  <ServicesSection
+    id="services"
+    title={m.admin_services_title()}
+    services={policyServices}
+    class="py-16 bg-base-200"
+  />
+  <PortfolioGrid
+    id="service-desk"
+    title={m.admin_servicedesk_title()}
+    items={serviceDeskItems}
+    class="py-16 bg-base-100"
+  />
+  <TeamSection
+    title={m.admin_team_title()}
+    subtitle={m.admin_team_subtitle()}
+    description={m.admin_team_description()}
+    members={teamMembers}
+  />
+</TeamLayout>

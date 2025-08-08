@@ -1,15 +1,14 @@
 ---
 import IconifyIcon from "./IconifyIcon.vue";
-import { createTranslator } from "../i18n/utils";
-
-const t = createTranslator(Astro.currentLocale);
+import * as m from "../paraglide/messages";
+import { localizeHref } from "../paraglide/runtime";
 ---
 
 <footer class="footer sm:footer-horizontal bg-base-100 text-base-content p-20">
   <aside>
     <img src="/logobar.png" alt="ITSC Logo" class="w-60 mb-4" loading="lazy" />
     <p class="text-lg font-bold">
-      {t("itsc.department")}<br />{t("university.name")}
+      {m.itsc_department()}<br />{m.university_name()}
     </p>
     <div class="flex gap-4 mt-4">
       <a
@@ -37,26 +36,37 @@ const t = createTranslator(Astro.currentLocale);
     </div>
   </aside>
   <nav>
-    <h6 class="footer-title">{t("common.contact")}</h6>
-    <p>{t("itsc.address")}</p>
-    <p>{t("itsc.address2")}</p>
-    <p>{t("itsc.address3")}</p>
-    <p>{t("itsc.phone")}</p>
+    <h6 class="footer-title">{m.common_contact()}</h6>
+    <p>{m.itsc_address()}</p>
+    <p>{m.itsc_address2()}</p>
+    <p>{m.itsc_address3()}</p>
+    <p>{m.itsc_phone()}</p>
     <p>
-      {t("itsc.mail")}
+      {m.itsc_mail()}
       <a href="mailto:helpdesk@rsu.ac.th" class="link link-hover"
         >helpdesk@rsu.ac.th</a
       >
     </p>
   </nav>
   <nav>
-    <h6 class="footer-title">{t("common.menu")}</h6>
-    <a href="/service" class="link link-hover">{t("common.service")}</a>
-    <a href="/guide" class="link link-hover">{t("common.docs")}</a>
-    <a href="/techtips" class="link link-hover">{t("common.techtips")}</a>
-    <a href="/news" class="link link-hover">{t("common.news")}</a>
-    <a href="/resources" class="link link-hover">{t("common.forms")}</a>
-    <a href="/about" class="link link-hover">{t("common.about")}</a>
+    <h6 class="footer-title">{m.common_menu()}</h6>
+    <a href={localizeHref("/service")} class="link link-hover"
+      >{m.common_service()}</a
+    >
+    <a href={localizeHref("/guide")} class="link link-hover"
+      >{m.common_docs()}</a
+    >
+    <a href={localizeHref("/techtips")} class="link link-hover"
+      >{m.common_techtips()}</a
+    >
+    <a href={localizeHref("/news")} class="link link-hover">{m.common_news()}</a
+    >
+    <a href={localizeHref("/resources")} class="link link-hover"
+      >{m.common_forms()}</a
+    >
+    <a href={localizeHref("/about")} class="link link-hover"
+      >{m.common_about()}</a
+    >
   </nav>
 </footer>
 <footer

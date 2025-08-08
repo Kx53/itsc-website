@@ -1,9 +1,8 @@
 ---
-import { createTranslator } from "@/i18n/utils";
+import * as m from "@/paraglide/messages";
+import { localizeHref } from "@/paraglide/runtime";
 import IconifyIcon from "@/components/IconifyIcon.vue";
 import { Image } from "astro:assets";
-
-const t = createTranslator("th");
 
 const newsArticles = [
   {
@@ -32,9 +31,9 @@ const newsArticles = [
 <section class="bg-base-200 py-12 sm:py-16">
   <div class="container mx-auto px-4">
     <div class="flex justify-between items-center mb-8">
-      <h2 class="text-3xl font-bold">{t("common.news")}</h2>
-      <a href="/news" class="btn btn-ghost">
-        {t("common.viewAll")}
+      <h2 class="text-3xl font-bold">{m.common_news()}</h2>
+      <a href={localizeHref("/news")} class="btn btn-ghost">
+        {m.common_viewAll()}
         <IconifyIcon icon="mdi:arrow-right" className="w-4 h-4" client:load />
       </a>
     </div>
@@ -56,8 +55,8 @@ const newsArticles = [
               <h2 class="card-title">{article.title}</h2>
               <p>{article.description}</p>
               <div class="card-actions justify-end">
-                <a href={article.link} class="btn btn-primary">
-                  {t("common.readMore")}
+                <a href={localizeHref(article.link)} class="btn btn-primary">
+                  {m.common_readMore()}
                 </a>
               </div>
             </div>

@@ -1,0 +1,57 @@
+---
+export interface Props {
+  banners: Array<{
+    src: string;
+    alt: string;
+  }>;
+}
+
+const { banners } = Astro.props;
+---
+
+<div class="w-full">
+  <div class="lg:flex lg:items-center lg:justify-center lg:gap-4">
+    <!-- Desktop-only Prev Button -->
+    <button id="hero-swiper-button-prev" class="hidden lg:block btn btn-circle">
+      ❮
+    </button>
+
+    <swiper-container
+      slides-per-view="1"
+      space-between="0"
+      effect="fade"
+      autoplay-delay="5000"
+      autoplay-disable-on-interaction="true"
+      loop="true"
+      navigation-prev-el="#hero-swiper-button-prev"
+      navigation-next-el="#hero-swiper-button-next"
+      class="w-full lg:flex-1 rounded-box overflow-hidden"
+    >
+      {
+        banners.map((banner) => (
+          <swiper-slide>
+            <div class="w-full h-[50vh] md:h-[60vh] bg-base-200">
+              <img
+                src={banner.src}
+                alt={banner.alt}
+                class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </swiper-slide>
+        ))
+      }
+    </swiper-container>
+
+    <!-- Desktop-only Next Button -->
+    <button id="hero-swiper-button-next" class="hidden lg:block btn btn-circle">
+      ❯
+    </button>
+  </div>
+</div>
+
+<script>
+  import { register } from "swiper/element/bundle";
+  register();
+</script>

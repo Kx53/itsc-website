@@ -1,0 +1,88 @@
+---
+import IconifyIcon from "@/components/IconifyIcon.vue";
+
+interface Props {
+  icon: string;
+  title: string;
+  description?: string;
+}
+
+const { icon, title, description } = Astro.props;
+---
+
+<div class="service-card-wrapper">
+  <div
+    class="card bg-base-100 shadow-xl hover:shadow-2xl duration-300 h-full relative z-10 transition-transform hover:scale-105"
+  >
+    <div class="card-body items-center text-center">
+      <IconifyIcon
+        icon={icon}
+        className="w-16 h-16 mb-4 text-primary"
+        client:load
+      />
+      <h3 class="card-title">
+        {title}
+      </h3>
+      {description && <p>{description}</p>}
+    </div>
+  </div>
+</div>
+
+<style>
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .service-card-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-card-wrapper::before,
+  .service-card-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem; /* Corresponds to rounded-lg in card */
+    background-image: conic-gradient(
+      from var(--angle),
+      #ff4545,
+      #00ff99,
+      #006aff,
+      #ff0095,
+      #ff4545
+    );
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+    animation: 3s spin linear infinite;
+  }
+
+  .service-card-wrapper::before {
+    filter: blur(1.5rem);
+  }
+
+  .service-card-wrapper:hover::after {
+    opacity: 1;
+  }
+
+  .service-card-wrapper:hover::before {
+    opacity: 0.75;
+  }
+
+  @keyframes spin {
+    from {
+      --angle: 0deg;
+    }
+    to {
+      --angle: 360deg;
+    }
+  }
+</style>

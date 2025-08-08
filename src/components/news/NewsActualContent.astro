@@ -1,175 +1,128 @@
 ---
-import { createTranslator } from "../../i18n/utils";
-import FeaturedNewsCard from "./FeaturedNewsCard.astro";
-import MiniNewsCard from "./MiniNewsCard.astro";
-import NewsFilter from "./NewsFilter.astro";
-import Pagination from "./Pagination.astro";
-
-const t = createTranslator("th");
+import * as m from "../../paraglide/messages";
+import NewsCard from "./NewsCard.astro";
+import NewsSearchAndFilter from "./NewsSearchAndFilter.astro";
 
 // Sample news data - ในระบบจริงจะดึงจาก API หรือ CMS
-const featuredNews = [
+const allNews = [
   {
-    title: "Lorem ipsum",
+    title: "เทคโนโลยี AI ปฏิวัติอุตสาหกรรมการผลิต",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit. Vivamus iaculis lorem vitae consequat vehicula. Maecenas finibus lacinia elit, tempus facilisis nisi ornare et.",
+      "ปัญญาประดิษฐ์กำลังเปลี่ยนแปลงวิธีการผลิตในโรงงานทั่วโลก ด้วยระบบอัตโนมัติที่ช่วยเพิ่มประสิทธิภาพและลดต้นทุนการผลิตอย่างมีนัยสำคัญ...",
     imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: "ข่าวสาร",
+    authorName: "สมชาย เทคโนโลยี",
+    date: "6 สิงหาคม 2567",
+    href: "#",
   },
   {
-    title: "Lorem ipsum",
+    title: "ตลาดหุ้นไทยแนวโน้มบวกในไตรมาสสุดท้าย",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit. Vivamus iaculis lorem vitae consequat vehicula. Maecenas finibus lacinia elit, tempus facilisis nisi ornare et.",
+      "นักวิเคราะห์คาดการณ์ว่าตลาดหุ้นไทยจะมีแนวโน้มเติบโตในช่วงไตรมาสสุดท้ายของปี จากปัจจัยบวกทางเศรษฐกิจและการฟื้นตัวของภาคการท่องเที่ยว พร้อ...",
     imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
+      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: "ข่าวสาร",
+    authorName: "วิภา การเงิน",
+    date: "5 สิงหาคม 2567",
+    href: "#",
+  },
+  {
+    title: "การดูแลสุขภาพแบบโฮลิสติกเทรนด์ใหม่ของคนรุ่นใหม่",
+    description:
+      "แนวโน้มการดูแลสุขภาพแบบองค์รวมกำลังได้รับความนิยมมากขึ้น โดยเน้นการสร้างสมดุลระหว่างร่างกาย จิตใจ และอารมณ์ ผ่านกิจกรรมโยคะ สมาธิ...",
+    imageUrl:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2120&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: "ข่าวสาร",
+    authorName: "ดร.สุขใจ สุขภาพดี",
+    date: "4 สิงหาคม 2567",
+    href: "#",
+  },
+  // Add more news items here to test pagination
+  {
+    title: "เปิดตัวบริการ Cloud ใหม่ล่าสุดสำหรับองค์กร",
+    description:
+      "ตอบโจทย์การทำงานยุคใหม่ด้วยบริการ Cloud ที่มีความยืดหยุ่นและปลอดภัยสูง พร้อมเครื่องมือสนับสนุนการทำงานร่วมกันอย่างครบครัน",
+    imageUrl:
+      "https://images.unsplash.com/photo-1585241936939-be4099591252?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: "ข่าวสาร",
+    authorName: "ทีม IT-SC",
+    date: "3 สิงหาคม 2567",
+    href: "#",
+  },
+  {
+    title: "เคล็ดลับความปลอดภัยไซเบอร์สำหรับทุกคน",
+    description:
+      "เรียนรู้วิธีป้องกันตัวเองจากภัยคุกคามทางไซเบอร์ที่พบบ่อย เช่น ฟิชชิง, มัลแวร์ และการหลอกลวงออนไลน์ เพื่อให้คุณใช้งานอินเทอร์เน็ตได้อย่างปลอดภัย",
+    imageUrl:
+      "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: "ข่าวสาร",
+    authorName: "อารี รักษาความปลอดภัย",
+    date: "2 สิงหาคม 2567",
+    href: "#",
+  },
+  {
+    title: "Work from Anywhere: จัดการเอกสารร่วมกันอย่างมืออาชีพ",
+    description:
+      "แนะนำเครื่องมือและแนวปฏิบัติที่ดีที่สุดในการจัดการเอกสารร่วมกับทีมแบบออนไลน์ เพิ่มประสิทธิภาพการทำงานไม่ว่าคุณจะอยู่ที่ไหน",
+    imageUrl:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: "ข่าวสาร",
+    authorName: "สมศรี ประสานงาน",
+    date: "1 สิงหาคม 2567",
+    href: "#",
   },
 ];
 
-const miniNews = [
-  {
-    title: "Lorem ipsum",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
-    imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Lorem ipsum",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
-    imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Lorem ipsum",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
-    imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Lorem ipsum",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
-    imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Lorem ipsum",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
-    imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Lorem ipsum",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius nisl vitae nibh dignissim hendrerit.",
-    imageUrl:
-      "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-    date: "DD MM YYYY",
-    readTime: "0 นาที",
-    category: "badge",
-    categoryColor: "bg-blue-500",
-  },
-];
+// Filter for "ข่าวสาร" category only, as requested.
+const newsItems = allNews.filter((news) => news.category === "ข่าวสาร");
 ---
 
 <div class="news-actual-content min-h-screen">
   <!-- Hero Section -->
-  <section class="hero-section py-16">
+  <section class="hero-section py-12 md:py-16 bg-base-100">
     <div class="max-w-7xl mx-auto px-6 text-center">
       <!-- Main Title -->
-      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-6">
-        {t("common.news")}
+      <h1 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        {m.common_news()}
       </h1>
 
       <!-- Subtitle -->
       <p
-        class="text-lg md:text-xl text-base-content max-w-4xl mx-auto leading-relaxed"
+        class="text-base md:text-lg text-base-content/80 max-w-3xl mx-auto leading-relaxed"
       >
-        ติดตามข่าวสารล่าสุด ประกาศสำคัญ
-        และความเคลื่อนไหวจากสำนักบริการเทคโนโลยีสารสนเทศ
+        {m.news_hero_subtitle()}
       </p>
     </div>
   </section>
 
-  <!-- Featured News Section -->
-  <section class="featured-news-section py-16">
-    <div class="max-w-7xl mx-auto px-6">
-      <!-- Section Title -->
-      <h2 class="text-2xl md:text-3xl font-bold text-base-content mb-12">
-        ข่าวเด่น
-      </h2>
+  <!-- Search Section -->
+  <div class="pb-8 md:pb-12">
+    <NewsSearchAndFilter />
+  </div>
 
-      <!-- Featured News Cards Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+  <!-- All News Grid Section -->
+  <section class="all-news-section py-12 md:py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- All News Grid -->
+      <div
+        id="news-grid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16"
+      >
         {
-          featuredNews.map((news) => (
-            <div class="featured-card-wrapper">
-              <FeaturedNewsCard
+          newsItems.map((news) => (
+            <div
+              class="news-card-wrapper"
+              data-search-content={`${news.title} ${news.description}`.toLowerCase()}
+            >
+              <NewsCard
                 title={news.title}
                 description={news.description}
                 imageUrl={news.imageUrl}
-                date={news.date}
-                readTime={news.readTime}
                 category={news.category}
-                categoryColor={news.categoryColor}
-              />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- News Filter Section -->
-  <NewsFilter />
-
-  <!-- Mini News Grid Section -->
-  <section class="mini-news-section py-16">
-    <div class="max-w-7xl mx-auto px-6">
-      <!-- Mini News Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        {
-          miniNews.map((news) => (
-            <div class="mini-card-wrapper">
-              <MiniNewsCard
-                title={news.title}
-                description={news.description}
-                imageUrl={news.imageUrl}
+                authorName={news.authorName}
                 date={news.date}
-                readTime={news.readTime}
-                category={news.category}
-                categoryColor={news.categoryColor}
+                href={news.href}
               />
             </div>
           ))
@@ -179,15 +132,12 @@ const miniNews = [
   </section>
 
   <!-- Pagination Section -->
-  <section class="pagination-section py-8">
-    <div class="max-w-7xl mx-auto px-6">
-      <Pagination
-        currentPage={1}
-        totalPages={5}
-        maxVisiblePages={5}
-        prevText="Previous"
-        nextText="Next"
-      />
+  <section class="pagination-section pb-12 md:pb-16">
+    <div
+      id="pagination-container"
+      class="max-w-7xl mx-auto px-6 flex justify-center"
+    >
+      {/* Pagination will be rendered by client-side script */}
     </div>
   </section>
 </div>
@@ -289,36 +239,114 @@ const miniNews = [
 </style>
 
 <script>
-  // Handle news filtering and pagination
+  // --- Client-side script for dynamic search and pagination via show/hide ---
   function initializeNewsContent() {
-    // Listen for search events
+    const newsGrid = document.getElementById("news-grid");
+    const paginationContainer = document.getElementById("pagination-container");
+    if (!newsGrid || !paginationContainer) return;
+
+    const allCards = Array.from(
+      newsGrid.querySelectorAll(".news-card-wrapper")
+    );
+
+    let currentPage = 1;
+    let searchTerm = "";
+    const itemsPerPage = 6; // Adjust as needed
+
+    function updateView() {
+      // 1. Filter by search term and get visible cards
+      const visibleCards = allCards.filter((card) => {
+        if (!(card instanceof HTMLElement)) return false;
+        const content = card.dataset.searchContent || "";
+        const matches = content.includes(searchTerm.toLowerCase());
+        // Temporarily hide all cards, we'll show the paginated ones next
+        card.style.display = "none";
+        return matches;
+      });
+
+      // 2. Paginate the visible cards
+      const totalPages = Math.ceil(visibleCards.length / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+
+      const paginatedCards = visibleCards.slice(startIndex, endIndex);
+
+      // 3. Show only the cards for the current page
+      paginatedCards.forEach((card) => {
+        if (card instanceof HTMLElement) {
+          card.style.display = "";
+        }
+      });
+
+      // 4. Render pagination controls
+      renderPagination(totalPages);
+    }
+
+    /**
+     * @param {number} totalPages
+     */
+    function renderPagination(totalPages: number) {
+      if (!paginationContainer) return;
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = "";
+        return;
+      }
+
+      let paginationHTML = '<div class="join">';
+      // Prev button
+      paginationHTML += `<button class="join-item btn ${
+        currentPage === 1 ? "btn-disabled" : ""
+      }" data-page="${currentPage - 1}">«</button>`;
+
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `<button class="join-item btn ${
+          i === currentPage ? "btn-primary" : ""
+        }" data-page="${i}">${i}</button>`;
+      }
+
+      // Next button
+      paginationHTML += `<button class="join-item btn ${
+        currentPage === totalPages ? "btn-disabled" : ""
+      }" data-page="${currentPage + 1}">»</button>`;
+      paginationHTML += "</div>";
+
+      paginationContainer.innerHTML = paginationHTML;
+    }
+
+    // --- Event Listeners ---
+
     document.addEventListener("newsSearch", (e) => {
-      const customEvent = e as CustomEvent;
-      const { searchTerm } = customEvent.detail;
-      console.log("Search term:", searchTerm);
-      // Implement search filtering logic here
+      if ("detail" in e) {
+        // @ts-ignore
+        searchTerm = e.detail.searchTerm || "";
+        currentPage = 1;
+        updateView();
+      }
     });
 
-    // Listen for category filter events
-    document.addEventListener("newsCategoryFilter", (e) => {
-      const customEvent = e as CustomEvent;
-      const { categoryId, active } = customEvent.detail;
-      console.log("Category filter:", categoryId, active);
-      // Implement category filtering logic here
+    paginationContainer.addEventListener("click", (e) => {
+      if (e.target instanceof Element) {
+        const button = e.target.closest("button[data-page]");
+        if (button && !button.classList.contains("btn-disabled")) {
+          const pageAttr = button.getAttribute("data-page");
+          if (pageAttr) {
+            const page = parseInt(pageAttr, 10);
+            if (page !== currentPage) {
+              currentPage = page;
+              updateView();
+            }
+          }
+        }
+      }
     });
 
-    // Listen for page change events
-    document.addEventListener("pageChange", (e) => {
-      const customEvent = e as CustomEvent;
-      const { page } = customEvent.detail;
-      console.log("Page changed to:", page);
-      // Implement pagination logic here
-    });
+    // Initial render
+    updateView();
   }
 
   // Initialize on page load
   document.addEventListener("DOMContentLoaded", initializeNewsContent);
-
   // Re-initialize for Astro page transitions
   document.addEventListener("astro:page-load", initializeNewsContent);
 </script>

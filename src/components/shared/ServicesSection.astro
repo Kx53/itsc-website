@@ -1,0 +1,40 @@
+---
+import TitledSection from "./TitledSection.astro";
+import ServiceCard from "./ServiceCard.astro";
+
+interface Service {
+  icon: string;
+  title: string;
+  description?: string;
+}
+
+interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  services: Service[];
+  class?: string;
+}
+
+const {
+  id = "services",
+  title,
+  subtitle,
+  services,
+  class: className = "py-16 bg-base-200",
+} = Astro.props;
+---
+
+<TitledSection id={id} title={title} subtitle={subtitle} class={className}>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {
+      services.map((service) => (
+        <ServiceCard
+          icon={service.icon}
+          title={service.title}
+          description={service.description}
+        />
+      ))
+    }
+  </div>
+</TitledSection>

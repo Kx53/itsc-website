@@ -1,0 +1,65 @@
+---
+interface BreadcrumbLink {
+  href?: string;
+  label: string;
+  icon?: string; // SVG path data
+}
+
+interface Props {
+  links: BreadcrumbLink[];
+}
+
+const { links } = Astro.props;
+const homeIconPath =
+  "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z";
+---
+
+<div class="text-sm breadcrumbs overflow-hidden">
+  <ul class="flex-wrap">
+    {
+      links.map((link, index) => (
+        <li>
+          {link.href ? (
+            <a href={link.href} class="inline-flex items-center gap-2">
+              {link.icon && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  class="h-4 w-4 stroke-current shrink-0"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d={link.icon}
+                  />
+                </svg>
+              )}
+              <span class="break-words">{link.label}</span>
+            </a>
+          ) : (
+            <span class="inline-flex items-center gap-2">
+              {link.icon && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  class="h-4 w-4 stroke-current shrink-0"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d={link.icon}
+                  />
+                </svg>
+              )}
+              <span class="break-words">{link.label}</span>
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</div>

@@ -3,15 +3,11 @@ import { Image } from "astro:assets";
 import logo from "../assets/logo.png";
 import logobar from "../assets/logobar.png";
 import IconifyIcon from "./IconifyIcon.vue"; // Import Vue component
-import {
-  createTranslator,
-  getLanguageSwitchUrl,
-  languages,
-  getRelativeLocaleUrl,
-} from "../i18n/utils";
+import * as m from "../paraglide/messages";
+import { localizeHref, deLocalizeHref, getLocale } from "../paraglide/runtime";
 
-const t = createTranslator(Astro.currentLocale);
-const currentLang = Astro.currentLocale || "th";
+const currentLocale = getLocale();
+const currentPath = deLocalizeHref(Astro.url.pathname);
 ---
 
 <div class="drawer">
@@ -40,10 +36,7 @@ const currentLang = Astro.currentLocale || "th";
             <span class="sr-only">Open sidebar</span>
           </label>
         </div>
-        <a
-          href={getRelativeLocaleUrl(currentLang, "/")}
-          class="flex items-center p-2"
-        >
+        <a href={localizeHref("/")} class="flex items-center p-2">
           <!-- Mobile -->
           <Image
             src={logo}
@@ -71,44 +64,44 @@ const currentLang = Astro.currentLocale || "th";
         <ul class="menu menu-horizontal px-1 space-x-2">
           <li>
             <a
-              href={getRelativeLocaleUrl(currentLang, "/service")}
-              aria-label={t("common.service")}
-              class="hover:text-base-content/70">{t("common.service")}</a
+              href={localizeHref("/#services")}
+              aria-label={m.common_service()}
+              class="hover:text-base-content/70">{m.common_service()}</a
             >
           </li>
           <li>
             <a
-              href={getRelativeLocaleUrl(currentLang, "/guide")}
-              aria-label={t("common.docs")}
-              class="hover:text-base-content/70">{t("common.docs")}</a
+              href={localizeHref("/guide")}
+              aria-label={m.common_docs()}
+              class="hover:text-base-content/70">{m.common_docs()}</a
             >
           </li>
           <li>
             <a
-              href={getRelativeLocaleUrl(currentLang, "/techtips")}
-              aria-label={t("common.techtips")}
-              class="hover:text-base-content/70">{t("common.techtips")}</a
+              href={localizeHref("/#it-knowledge")}
+              aria-label={m.common_techtips()}
+              class="hover:text-base-content/70">{m.common_techtips()}</a
             >
           </li>
           <li>
             <a
-              href={getRelativeLocaleUrl(currentLang, "/news")}
-              aria-label={t("common.news")}
-              class="hover:text-base-content/70">{t("common.news")}</a
+              href={localizeHref("/news")}
+              aria-label={m.common_news()}
+              class="hover:text-base-content/70">{m.common_news()}</a
             >
           </li>
           <li>
             <a
-              href={getRelativeLocaleUrl(currentLang, "/resource")}
-              aria-label={t("common.forms")}
-              class="hover:text-base-content/70">{t("common.forms")}</a
+              href={localizeHref("/resource")}
+              aria-label={m.common_forms()}
+              class="hover:text-base-content/70">{m.common_forms()}</a
             >
           </li>
           <li>
             <a
-              href={getRelativeLocaleUrl(currentLang, "/about")}
-              aria-label={t("common.about")}
-              class="hover:text-base-content/70">{t("common.about")}</a
+              href={localizeHref("/about")}
+              aria-label={m.common_about()}
+              class="hover:text-base-content/70">{m.common_about()}</a
             >
           </li>
         </ul>
@@ -117,7 +110,7 @@ const currentLang = Astro.currentLocale || "th";
       <div class="navbar-end space-x-2">
         <label
           class="swap swap-rotate btn btn-ghost btn-circle"
-          aria-label={t("common.toggleTheme")}
+          aria-label={m.common_toggleTheme()}
         >
           <input
             type="checkbox"
@@ -149,38 +142,40 @@ const currentLang = Astro.currentLocale || "th";
           </svg>
         </label>
 
+        <!-- Language Switcher -->
         <div class="dropdown dropdown-end">
           <div
             tabindex="0"
             role="button"
             class="btn btn-ghost btn-circle"
-            aria-label={t("common.languageSwitcher")}
+            aria-label="Switch language"
           >
             <IconifyIcon
               icon="material-symbols:language"
-              className="w-5 h-5"
+              className="h-5 w-5"
               client:load
             />
           </div>
           <ul
             tabindex="0"
-            class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-32 p-2 shadow"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow"
           >
-            {
-              Object.entries(languages).map(([langCode, langName]) => (
-                <li>
-                  <a
-                    href={getLanguageSwitchUrl(
-                      langCode as "th" | "en",
-                      Astro.url.pathname
-                    )}
-                    class={currentLang === langCode ? "active" : ""}
-                  >
-                    {langName}
-                  </a>
-                </li>
-              ))
-            }
+            <li>
+              <a
+                href={localizeHref(currentPath, { locale: "th" })}
+                class={currentLocale === "th" ? "active" : ""}
+              >
+                🇹🇭 ไทย
+              </a>
+            </li>
+            <li>
+              <a
+                href={localizeHref(currentPath, { locale: "en" })}
+                class={currentLocale === "en" ? "active" : ""}
+              >
+                🇺🇸 English
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -196,10 +191,7 @@ const currentLang = Astro.currentLocale || "th";
     >
       <!-- Sidebar content here -->
       <li class="mb-4 menu-title text-lg">
-        <a
-          href={getRelativeLocaleUrl(currentLang, "/")}
-          class="flex items-center"
-        >
+        <a href={localizeHref("/")} class="flex items-center">
           <Image
             src={logo}
             alt="Logo"
@@ -214,44 +206,44 @@ const currentLang = Astro.currentLocale || "th";
       </li>
       <li>
         <a
-          href={getRelativeLocaleUrl(currentLang, "/service")}
-          aria-label={t("common.service")}
-          class="hover:text-base-content/70 py-3">{t("common.service")}</a
+          href={localizeHref("/#services")}
+          aria-label={m.common_service()}
+          class="hover:text-base-content/70 py-3">{m.common_service()}</a
         >
       </li>
       <li>
         <a
-          href={getRelativeLocaleUrl(currentLang, "/guide")}
-          aria-label={t("common.docs")}
-          class="hover:text-base-content/70 py-3">{t("common.docs")}</a
+          href={localizeHref("/guide")}
+          aria-label={m.common_docs()}
+          class="hover:text-base-content/70 py-3">{m.common_docs()}</a
         >
       </li>
       <li>
         <a
-          href={getRelativeLocaleUrl(currentLang, "/techtips")}
-          aria-label={t("common.techtips")}
-          class="hover:text-base-content/70 py-3">{t("common.techtips")}</a
+          href={localizeHref("/#it-knowledge")}
+          aria-label={m.common_techtips()}
+          class="hover:text-base-content/70 py-3">{m.common_techtips()}</a
         >
       </li>
       <li>
         <a
-          href={getRelativeLocaleUrl(currentLang, "/news")}
-          aria-label={t("common.news")}
-          class="hover:text-base-content/70 py-3">{t("common.news")}</a
+          href={localizeHref("/news")}
+          aria-label={m.common_news()}
+          class="hover:text-base-content/70 py-3">{m.common_news()}</a
         >
       </li>
       <li>
         <a
-          href={getRelativeLocaleUrl(currentLang, "/resource")}
-          aria-label={t("common.forms")}
-          class="hover:text-base-content/70 py-3">{t("common.forms")}</a
+          href={localizeHref("/resource")}
+          aria-label={m.common_forms()}
+          class="hover:text-base-content/70 py-3">{m.common_forms()}</a
         >
       </li>
       <li>
         <a
-          href={getRelativeLocaleUrl(currentLang, "/about")}
-          aria-label={t("common.about")}
-          class="hover:text-base-content/70 py-3">{t("common.about")}</a
+          href={localizeHref("/about")}
+          aria-label={m.common_about()}
+          class="hover:text-base-content/70 py-3">{m.common_about()}</a
         >
       </li>
     </ul>

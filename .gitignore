@@ -20,15 +20,16 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-# jetbrains setting folder
+# IDE setting folder
 .idea/
-
 .vscode/
-.kilocode
-.memory-bank
 
-tables.md*
-tab;es.md*
+# Development files
+memory-bank/
+.kilocode/
 
-darkmodeswitch.md*
-designBreif.md*
+# Temporary files
+*.md.backup
+
+# Paraglide generated files (if needed)
+src/paraglide/

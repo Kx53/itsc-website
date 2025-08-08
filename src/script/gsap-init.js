@@ -6,63 +6,114 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
-// ใช้ตัวแปรเดียว mainContext สำหรับจัดการ GSAP context ทั้งหมด
+// === CONFIGURATION ===
+const CONFIG = {
+  // ScrollSmoother settings
+  smoother: {
+    wrapper: "#smooth-wrapper",
+    content: "#smooth-content",
+    smooth: 1,
+    effects: true,
+    normalizeScroll: true,
+    smoothTouch: 0.1,
+  },
+
+  // Animation durations and settings
+  animations: {
+    backToTop: {
+      showThreshold: 400,
+      duration: 0.3,
+      scrollDuration: 1,
+      ease: "power2.inOut",
+    },
+    anchorScroll: {
+      duration: 1,
+      offsetY: 80,
+      ease: "power2.inOut",
+    },
+    crossPageDelay: 800,
+    footerBounce: {
+      duration: 0.2,
+    },
+  },
+
+  // Element selectors
+  selectors: {
+    backToTopBtn: "#back-to-top",
+    aboutSection: "#about",
+    anchorLinks: 'a[href*="#"]',
+  },
+};
+
+// === STATE MANAGEMENT ===
 let mainContext = null;
 let smoother = null;
 
+// === UTILITY FUNCTIONS ===
+
 /**
- * เริ่มต้นการทำงานของ Smooth Scrolling โดยใช้ GSAP ScrollSmoother
- * - สร้าง gsap.context() ใหม่เพื่อจัดการ lifecycle ของ animations และ event listeners
- * - ตั้งค่า ScrollSmoother และ ScrollTrigger ต่างๆ
- * - จัดการปุ่ม Back to Top และ anchor links
+ * สร้าง GSAP animation object สำหรับการ show/hide element
  */
-export function initSmoothScrolling() {
-  // Kill previous context and animations if they exist
-  killSmoothScrolling();
+const createVisibilityAnimation = (
+  element,
+  isVisible,
+  duration = CONFIG.animations.backToTop.duration
+) => ({
+  opacity: isVisible ? 1 : 0,
+  visibility: isVisible ? "visible" : "hidden",
+  duration,
+});
 
-  // Create a new GSAP context to handle all animations and event listeners
-  mainContext = gsap.context(() => {
-    // Create the smooth scroller with improved settings
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1, // reduced from 1.5 for better control
-      effects: true, // look for data-speed and data-lag attributes on elements
-      normalizeScroll: true, // prevents address bar from showing/hiding on mobile
-      smoothTouch: 0.1, // much shorter smoothing time on touch devices
-    });
+/**
+ * สร้าง scroll animation object
+ */
+const createScrollAnimation = (target, options = {}) => ({
+  duration: options.duration || CONFIG.animations.anchorScroll.duration,
+  scrollTo: {
+    y: target,
+    offsetY: options.offsetY || CONFIG.animations.anchorScroll.offsetY,
+    autoKill: true,
+  },
+  ease: options.ease || CONFIG.animations.anchorScroll.ease,
+});
 
-    // Prevent scrolling beyond the footer
-    ScrollTrigger.create({
-      trigger: "#contact",
-      start: "bottom bottom",
-      onEnter: () => {
-        // Optional: add a slight bounce effect when reaching the bottom
-        gsap.to(window, {
-          duration: 0.2,
-          scrollTo: { y: document.body.scrollHeight, autoKill: true },
-        });
-      },
-    });
+/**
+ * ตรวจสอบว่า anchor link เป็นการนำทางในหน้าเดียวกันหรือไม่
+ */
+const isSamePageAnchor = (href) => {
+  const hashIndex = href.indexOf("#");
+  if (hashIndex === -1) return false;
 
-    // Initialize back to top button
-    initBackToTopButton();
+  const linkPath = href.substring(0, hashIndex);
+  const currentPath = window.location.pathname;
 
-    // Initialize anchor links
-    initAnchorLinks();
+  return !linkPath || linkPath === currentPath || linkPath === "";
+};
 
-    console.log("GSAP ScrollSmoother Initialized with context");
-  });
-}
+/**
+ * แยก hash จาก href
+ */
+const extractHash = (href) => {
+  const hashIndex = href.indexOf("#");
+  return hashIndex !== -1 ? href.substring(hashIndex) : null;
+};
+
+/**
+ * จัดการการ scroll ไปยัง element ที่กำหนด
+ */
+const scrollToElement = (element, options = {}) => {
+  if (!element) return;
+
+  gsap.to(window, createScrollAnimation(element, options));
+};
+
+// === INITIALIZATION FUNCTIONS ===
 
 /**
  * ตั้งค่าปุ่ม Back to Top
- * - จัดการการแสดง/ซ่อนตามตำแหน่งการเลื่อน
- * - เพิ่ม event listener สำหรับการคลิก
  */
 function initBackToTopButton() {
-  // Find the button from BackToTop.astro component by its ID
-  const backToTopBtn = document.getElementById("back-to-top");
+  const backToTopBtn = document.querySelector(CONFIG.selectors.backToTopBtn);
 
   if (!backToTopBtn) {
     console.warn(
@@ -71,83 +122,128 @@ function initBackToTopButton() {
     return;
   }
 
+  const { showThreshold, duration, scrollDuration, ease } =
+    CONFIG.animations.backToTop;
+
   // Show/hide button based on scroll position
   ScrollTrigger.create({
-    start: 400, // show after scrolling down 400px
+    start: showThreshold,
     onEnter: () =>
-      gsap.to(backToTopBtn, {
-        opacity: 1,
-        visibility: "visible",
-        duration: 0.3,
-      }),
+      gsap.to(
+        backToTopBtn,
+        createVisibilityAnimation(backToTopBtn, true, duration)
+      ),
     onLeaveBack: () =>
-      gsap.to(backToTopBtn, {
-        opacity: 0,
-        visibility: "hidden",
-        duration: 0.3,
-      }),
+      gsap.to(
+        backToTopBtn,
+        createVisibilityAnimation(backToTopBtn, false, duration)
+      ),
   });
 
-  // Add click event listener - this will be automatically cleaned up by gsap.context().revert()
+  // Add click event listener
   backToTopBtn.addEventListener("click", () => {
-    // Scroll to top smoothly using GSAP
     gsap.to(window, {
-      duration: 1,
-      scrollTo: {
-        y: 0,
-        autoKill: true,
-      },
-      ease: "power2.inOut",
+      duration: scrollDuration,
+      scrollTo: { y: 0, autoKill: true },
+      ease,
     });
   });
 }
 
 /**
  * ตั้งค่า anchor links สำหรับการนำทางภายในหน้า
- * - เพิ่ม event listener สำหรับลิงก์ที่เริ่มต้นด้วย #
- * - ใช้ GSAP ScrollToPlugin เพื่อเลื่อนไปยังเป้าหมายอย่างนุ่มนวล
  */
 function initAnchorLinks() {
-  // Fix for anchor links navigation with ScrollSmoother
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    // Event listeners created within gsap.context() will be automatically cleaned up
+  document.querySelectorAll(CONFIG.selectors.anchorLinks).forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
+      const href = this.getAttribute("href");
+      const targetHash = extractHash(href);
+
+      // Early returns for invalid cases
+      if (!targetHash || targetHash === "#") return;
+      if (!isSamePageAnchor(href)) return;
+
+      // Handle same-page anchor link
       e.preventDefault();
 
-      const targetId = this.getAttribute("href");
-      if (targetId === "#") return;
-
-      const targetElement = document.querySelector(targetId);
-      if (!targetElement) return;
-
-      gsap.to(window, {
-        duration: 1,
-        scrollTo: {
-          y: targetElement,
-          offsetY: 80, // account for fixed header
-        },
-        ease: "power2.inOut",
-      });
+      const targetElement = document.querySelector(targetHash);
+      if (targetElement) {
+        scrollToElement(targetElement);
+      }
     });
   });
 }
 
 /**
+ * ตั้งค่าการป้องกันการ scroll เกิน footer
+ */
+function initFooterScrollLimit() {
+  const aboutElement = document.querySelector(CONFIG.selectors.aboutSection);
+
+  if (!aboutElement) return;
+
+  ScrollTrigger.create({
+    trigger: CONFIG.selectors.aboutSection,
+    start: "bottom bottom",
+    onEnter: () => {
+      gsap.to(window, {
+        duration: CONFIG.animations.footerBounce.duration,
+        scrollTo: { y: document.body.scrollHeight, autoKill: true },
+      });
+    },
+  });
+}
+
+/**
+ * จัดการการนำทางข้ามหน้าไปยัง anchor
+ */
+function handleCrossPageAnchorNavigation() {
+  const hash = window.location.hash;
+
+  if (!hash || hash === "#") return;
+
+  setTimeout(() => {
+    const targetElement = document.querySelector(hash);
+    if (targetElement && smoother) {
+      smoother.scrollTo(targetElement, true, "top top+=80");
+    }
+  }, CONFIG.animations.crossPageDelay);
+}
+
+// === MAIN FUNCTIONS ===
+
+/**
+ * เริ่มต้นการทำงานของ Smooth Scrolling โดยใช้ GSAP ScrollSmoother
+ */
+export function initSmoothScrolling() {
+  // Kill previous context and animations if they exist
+  killSmoothScrolling();
+
+  // Create a new GSAP context to handle all animations and event listeners
+  mainContext = gsap.context(() => {
+    // Create the smooth scroller
+    smoother = ScrollSmoother.create(CONFIG.smoother);
+
+    // Initialize all components
+    // initFooterScrollLimit(); // Disabled this to prevent "snap to footer" effect
+    initBackToTopButton();
+    initAnchorLinks();
+    handleCrossPageAnchorNavigation();
+
+    console.log("GSAP ScrollSmoother Initialized with context");
+  });
+}
+
+/**
  * ทำความสะอาดและยกเลิก animations และ event listeners ทั้งหมด
- * - เรียก mainContext.revert() เพื่อยกเลิก GSAP animations และ event listeners ทั้งหมด
- * - ล้างตัวแปร global เพื่อเตรียมพร้อมสำหรับการโหลดหน้าถัดไป
  */
 export function killSmoothScrolling() {
-  // If we have a context, revert it (this cleans up all animations and event listeners)
   if (mainContext) {
-    console.log("Reverting GSAP context and cleaning up all animations");
     mainContext.revert();
     mainContext = null;
   }
 
-  // Reset smoother reference
   smoother = null;
-
 }
 
 // --- Astro View Transitions Integration ---

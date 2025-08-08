@@ -3,11 +3,20 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import vue from "@astrojs/vue";
 import Components from "unplugin-vue-components/vite";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
+  output: "server",
+  adapter: node({ mode: "standalone" }),
   vite: {
     plugins: [
+      paraglideVitePlugin({
+        project: "./project.inlang",
+        outdir: "./src/paraglide",
+        strategy: ["url", "cookie", "baseLocale"],
+      }),
       tailwindcss(),
       Components({
         dts: true,
@@ -18,14 +27,6 @@ export default defineConfig({
   integrations: [vue()],
 
   image: {
-    domains: ["picsum.photos"],
-  },
-
-  i18n: {
-    locales: ["th", "en"],
-    defaultLocale: "th",
-    routing: {
-      prefixDefaultLocale: false,
-    },
+    domains: ["picsum.photos", "strapi.placeholder.com"],
   },
 });

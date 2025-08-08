@@ -1,0 +1,82 @@
+---
+import Icon from "@/components/IconifyIcon.vue";
+import * as m from "../../paraglide/messages";
+
+export interface Props {
+  title: string;
+  description: string;
+  imageUrl: string;
+  category: string;
+  authorName: string;
+  date: string;
+  href: string;
+  readMoreText?: string;
+}
+
+const {
+  title,
+  description,
+  imageUrl,
+  category,
+  authorName,
+  date,
+  href,
+  readMoreText = m.common_readMore(),
+} = Astro.props;
+---
+
+<div
+  class="card bg-base-100 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out rounded-lg overflow-hidden h-full flex flex-col"
+>
+  <figure class="relative">
+    <img
+      src={imageUrl}
+      alt={m.news_card_image_alt({ title: title })}
+      class="w-full h-48 object-cover"
+      loading="lazy"
+    />
+    <div class="absolute top-4 left-4 badge badge-primary text-primary-content">
+      {category}
+    </div>
+  </figure>
+
+  <div class="card-body p-6 flex-grow flex flex-col">
+    <h2 class="card-title text-lg font-semibold mb-2 text-base-content">
+      {title}
+    </h2>
+    <p
+      class="text-base-content/80 text-sm leading-relaxed mb-4 line-clamp-3 flex-grow"
+    >
+      {description}
+    </p>
+    <div class="mt-auto flex items-center justify-between">
+      <div class="flex items-center text-xs text-base-content/60 gap-4">
+        <div class="flex items-center gap-1.5">
+          <Icon icon="heroicons:user" className="w-4 h-4" client:visible />
+          <span>{authorName}</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <Icon icon="heroicons:calendar" className="w-4 h-4" client:visible />
+          <span>{date}</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <a
+          href={href}
+          class="btn btn-primary w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white"
+        >
+          {readMoreText}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

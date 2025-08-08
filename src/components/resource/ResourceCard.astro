@@ -1,6 +1,7 @@
 ---
 // src/components/resource/ResourceCard.astro
 import IconifyIcon from "../IconifyIcon.vue";
+import * as m from "@/paraglide/messages";
 
 export interface Props {
   title: string;
@@ -15,7 +16,12 @@ export interface Props {
 const { title, description, tag, fileType, date, size, viewUrl } = Astro.props;
 ---
 
-<div class="rainbow-border-wrapper h-full">
+<div
+  class="rainbow-border-wrapper h-full resource-item"
+  data-title={title}
+  data-tag={tag}
+  data-description={description}
+>
   <div
     class="card h-full bg-base-200 shadow-none border border-transparent transition-colors duration-300"
   >
@@ -54,7 +60,7 @@ const { title, description, tag, fileType, date, size, viewUrl } = Astro.props;
           </div>
         </div>
         <a href={viewUrl} class="btn btn-primary">
-          ดู
+          {m.resource_card_view_button()}
           <IconifyIcon icon="mdi:eye" className="h-5 w-5" client:visible />
         </a>
       </div>

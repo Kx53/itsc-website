@@ -1,5 +1,6 @@
 ---
 // src/components/resource/ResourceTabsWrapper.astro
+import * as m from "@/paraglide/messages";
 ---
 
 <div class="py-8 flex flex-col items-center">
@@ -10,7 +11,7 @@
       name="doc_tabs"
       role="tab"
       class="tab"
-      aria-label="มุมมองการ์ด"
+      aria-label={m.resource_tabs_card_view()}
       value="card"
       checked
     />
@@ -20,7 +21,7 @@
       name="doc_tabs"
       role="tab"
       class="tab"
-      aria-label="มุมมองตาราง"
+      aria-label={m.resource_tabs_table_view()}
       value="table"
     />
   </div>

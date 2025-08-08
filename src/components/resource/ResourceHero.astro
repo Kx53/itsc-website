@@ -1,10 +1,11 @@
 ---
 // src/components/resource/ResourceHero.astro
+import * as m from "@/paraglide/messages";
 ---
 
 <section class="text-center py-12 md:py-16">
-  <h1 class="md:text-3xl text-2xl font-bold mb-4">เอกสารและแบบฟอร์ม</h1>
+  <h1 class="md:text-3xl text-2xl font-bold mb-4">{m.resource_hero_title()}</h1>
   <p class="md:text-xl text-lg text-base-content/80 max-w-3xl mx-auto">
-    ค้นหาและดาวน์โหลดเอกสารที่จำเป็นสำหรับการใช้งานระบบเทคโนโลยีสารสนเทศ
+    {m.resource_hero_subtitle()}
   </p>
 </section>

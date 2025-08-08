@@ -1,0 +1,126 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import * as m from "@/paraglide/messages";
+
+// Shared Components
+import HeroSection from "@/components/shared/HeroSection.astro";
+import ServicesSection from "@/components/shared/ServicesSection.astro";
+import PortfolioGrid from "@/components/shared/PortfolioGrid.astro";
+import TeamSection from "@/components/shared/TeamSection.astro";
+
+const pageTitle = `${m.network_title()} - ${m.site_title()}`;
+
+// Define navigation items specific to network page
+const navItems = [
+  { href: "#hero", text: m.team_home() },
+  { href: "#services", text: m.team_services() },
+  { href: "#portfolio", text: m.team_portfolio() },
+  { href: "#team", text: m.team_team() },
+  { href: "#contact", text: m.team_contact() },
+];
+
+// Data for ServicesSection (no descriptions as per messages.json)
+const services = [
+  {
+    icon: "grommet-icons:gateway",
+    title: m.network_service_1_title(),
+  },
+  {
+    icon: "carbon:vpn",
+    title: m.network_service_2_title(),
+  },
+  {
+    icon: "carbon:server-proxy",
+    title: m.network_service_3_title(),
+  },
+  {
+    icon: "fa6-solid:users-gear",
+    title: m.network_service_4_title(),
+  },
+  {
+    icon: "wpf:chat",
+    title: m.network_service_5_title(),
+  },
+];
+
+// Data for PortfolioGrid
+const portfolioItems = [
+  m.network_portfolio_item_1(),
+  m.network_portfolio_item_2(),
+  m.network_portfolio_item_3(),
+  m.network_portfolio_item_4(),
+  m.network_portfolio_item_5(),
+  m.network_portfolio_item_6(),
+  m.network_portfolio_item_7(),
+  m.network_portfolio_item_8(),
+];
+
+// Data for TeamSection
+const teamMembers = [
+  {
+    name: m.network_team_member_1_name(),
+    role: m.network_team_member_1_role(),
+    imageUrl: "/team/kritsada.webp",
+  },
+  {
+    name: m.network_team_member_2_name(),
+    role: m.network_team_member_2_role(),
+    imageUrl: "/team/thianrawit.webp",
+  },
+  {
+    name: m.network_team_member_3_name(),
+    role: m.network_team_member_3_role(),
+    imageUrl: "/team/chanapon.webp",
+  },
+  {
+    name: m.network_team_member_4_name(),
+    role: m.network_team_member_4_role(),
+    imageUrl: "/team/chainarin.webp",
+  },
+  {
+    name: m.network_team_member_5_name(),
+    role: m.network_team_member_5_role(),
+    imageUrl: "/team/sompongpinij.webp",
+  },
+  {
+    name: m.network_team_member_6_name(),
+    role: m.network_team_member_6_role(),
+    imageUrl: "/team/wuttichai.webp",
+  },
+  {
+    name: m.network_team_member_7_name(),
+    role: m.network_team_member_7_role(),
+    imageUrl: "/team/hatsadin.webp",
+  },
+];
+---
+
+<TeamLayout
+  title={pageTitle}
+  footerAddressKey="teamfooter_address_b6r506"
+  footerPhoneKey="teamfooter_phone_network"
+  navItems={navItems}
+>
+  <HeroSection
+    title={m.network_hero_title()}
+    imageUrl="/network-hero-bg.webp"
+  />
+  <ServicesSection
+    title={m.network_services_title()}
+    subtitle={m.network_services_subtitle()}
+    services={services}
+    class="py-16 bg-base-200"
+  />
+  <PortfolioGrid
+    title={m.network_portfolio_title()}
+    subtitle={m.network_portfolio_subtitle()}
+    items={portfolioItems}
+  />
+  <TeamSection
+    title={m.network_team_title()}
+    subtitle={m.network_team_subtitle()}
+    description={m.network_team_description()}
+    members={teamMembers}
+    gridCols="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+  />
+</TeamLayout>

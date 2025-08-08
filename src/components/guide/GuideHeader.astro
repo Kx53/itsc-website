@@ -1,0 +1,15 @@
+---
+// GuideHeader.astro - Header section with title and search bar for guide page
+import * as m from "@/paraglide/messages";
+import SearchBox from "@/components/shared/SearchBox.astro";
+---
+
+<!-- Page Title -->
+<div class="text-center mb-16">
+  <h1 class="text-4xl font-bold text-base-content">{m.guide_title()}</h1>
+</div>
+
+<!-- Search Bar -->
+<div class="flex justify-center mb-8">
+  <SearchBox id="guide-search" />
+</div>

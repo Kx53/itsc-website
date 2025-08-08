@@ -1,0 +1,171 @@
+---
+// GuideCard.astro - A single card component for displaying a guide item
+import type { GuideItem } from "@/data/guides";
+import * as m from "@/paraglide/messages";
+
+interface Props {
+  guide: GuideItem;
+}
+
+const { guide } = Astro.props;
+---
+
+<div class="rainbow-border-wrapper h-full">
+  <article
+    class="card bg-base-100 border border-transparent w-full shadow-sm h-full flex flex-col transition-colors duration-300"
+  >
+    <figure class="overflow-hidden h-60 flex-shrink-0">
+      <img
+        src={guide.image}
+        alt={guide.title}
+        class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+      />
+    </figure>
+    <div class="card-body space-y-5 p-6 flex-grow flex flex-col">
+      <div class="flex justify-start">
+        <div
+          class="badge badge-primary badge-sm text-primary-content px-3 py-2"
+        >
+          {guide.category}
+        </div>
+      </div>
+      <h2
+        class="card-title text-base-content text-lg leading-tight line-clamp-2 flex-grow"
+      >
+        <a
+          href={guide.url}
+          class="hover:text-primary transition-colors duration-200"
+        >
+          {guide.title}
+        </a>
+      </h2>
+      <div
+        class="flex items-center justify-between gap-5 text-sm text-base-content/70 mt-auto"
+      >
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="avatar placeholder flex-shrink-0">
+            <div
+              class="bg-neutral text-neutral-content rounded-full w-9 h-9 flex items-center justify-center"
+            >
+              <span class="text-xs font-medium">
+                {guide.author.charAt(0)}
+              </span>
+            </div>
+          </div>
+          <span class="text-sm truncate">
+            {m.guide_author_by()}
+            {guide.author}
+          </span>
+        </div>
+        <time
+          class="text-sm whitespace-nowrap flex-shrink-0"
+          datetime={guide.date}
+        >
+          {guide.date}
+        </time>
+      </div>
+    </div>
+  </article>
+</div>
+
+<style>
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .rainbow-border-wrapper {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .rainbow-border-wrapper:hover {
+    transform: translateY(-4px);
+  }
+
+  .rainbow-border-wrapper::before,
+  .rainbow-border-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem; /* Corresponds to card's rounded-box */
+    background-image: conic-gradient(
+      from var(--angle),
+      #ff4545,
+      #00ff99,
+      #006aff,
+      #ff0095,
+      #ff4545
+    );
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+    animation: 3s spin linear infinite;
+  }
+
+  .rainbow-border-wrapper::before {
+    filter: blur(0.5rem);
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+  }
+
+  .rainbow-border-wrapper:hover::after {
+    opacity: 1;
+  }
+
+  .rainbow-border-wrapper:hover::before {
+    opacity: 0.75;
+  }
+
+  .rainbow-border-wrapper:hover .card {
+    border-color: transparent; /* Hide original border on hover */
+  }
+
+  @keyframes spin {
+    from {
+      --angle: 0deg;
+    }
+    to {
+      --angle: 360deg;
+    }
+  }
+
+  /* Ensure consistent card heights and responsive behavior */
+  .card {
+    height: 100%; /* ให้ card สูงเต็มพื้นที่ grid */
+  }
+
+  /* Line clamp utility for title truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .card {
+      border-width: 2px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .transition-transform,
+    .transition-colors {
+      transition: none;
+    }
+
+    .rainbow-border-wrapper:hover {
+      transform: none;
+    }
+  }
+</style>

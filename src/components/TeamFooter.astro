@@ -1,12 +1,9 @@
 ---
 import IconifyIcon from "./IconifyIcon.vue";
-import { ui } from "../i18n/ui";
-import { createTranslator } from "../i18n/utils";
+import * as m from "../paraglide/messages";
 
-const t = createTranslator(Astro.currentLocale);
-
-type AddressKeys = keyof (typeof ui)["th"] & `teamfooter.address_${string}`;
-type PhoneKeys = keyof (typeof ui)["th"] & `teamfooter.phone_${string}`;
+type AddressKeys = keyof typeof m & `teamfooter_address_${string}`;
+type PhoneKeys = keyof typeof m & `teamfooter_phone_${string}`;
 
 interface Props {
   addressKey?: AddressKeys;
@@ -14,8 +11,8 @@ interface Props {
 }
 
 const {
-  addressKey = "teamfooter.address_b1r207", // Default address
-  phoneKey = "teamfooter.phone_service", // Default phone
+  addressKey = "teamfooter_address_b1r207", // Default address
+  phoneKey = "teamfooter_phone_service", // Default phone
 } = Astro.props;
 ---
 
@@ -31,10 +28,10 @@ const {
       class="inline-block"
       loading="lazy"
     />
-    <p class="font-bold text-lg">{t("teamfooter.contact")}</p>
-    <p class="font-regular">{t(addressKey)}</p>
-    <p class="font-bold text-lg">{t("teamfooter.phone")}</p>
-    <p class="font-regular">{t(phoneKey)}</p>
+    <p class="font-bold text-lg">{m.teamfooter_contact()}</p>
+    <p class="font-regular">{m[addressKey]()}</p>
+    <p class="font-bold text-lg">{m.teamfooter_phone()}</p>
+    <p class="font-regular">{m[phoneKey]()}</p>
     <p>
       Copyright © {new Date().getFullYear()} - All right reserved by ITSC.
     </p>

@@ -1,0 +1,94 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import * as m from "@/paraglide/messages";
+import HeroSection from "@/components/shared/HeroSection.astro";
+import ServicesSection from "@/components/shared/ServicesSection.astro";
+import TeamSection from "@/components/shared/TeamSection.astro";
+
+const pageTitle = `${m.support_title()} - ${m.site_title()}`;
+
+// Define navigation items specific to support page
+const navItems = [
+  { href: "#hero", text: m.team_home() },
+  { href: "#services", text: m.team_services() },
+  { href: "#team", text: m.team_team() },
+  { href: "#contact", text: m.team_contact() },
+];
+
+// Define services data (same as original)
+const services = [
+  {
+    icon: "streamline-sharp:screwdriver-wrench-solid",
+    title: m.support_service_1_title(),
+  },
+  {
+    icon: "ic:baseline-laptop",
+    title: m.support_service_2_title(),
+  },
+  {
+    icon: "material-symbols:upgrade-rounded",
+    title: m.support_service_3_title(),
+  },
+];
+
+// Define team members data (same as original)
+const teamMembers = [
+  {
+    name: m.support_team_member_1_name(),
+    role: m.support_team_member_1_role(),
+    imageUrl: "/team/krissada.webp",
+  },
+  {
+    name: m.support_team_member_2_name(),
+    role: m.support_team_member_2_role(),
+    imageUrl: "/team/chai.webp",
+  },
+  {
+    name: m.support_team_member_3_name(),
+    role: m.support_team_member_3_role(),
+    imageUrl: "/team/teeradate.webp",
+  },
+  {
+    name: m.support_team_member_4_name(),
+    role: m.support_team_member_4_role(),
+    imageUrl: "/team/siripong.webp",
+  },
+  {
+    name: m.support_team_member_5_name(),
+    role: m.support_team_member_5_role(),
+    imageUrl: "/team/nopadol.webp",
+  },
+  {
+    name: m.support_team_member_6_name(),
+    role: m.support_team_member_6_role(),
+    imageUrl: "/team/nuttapong.webp",
+  },
+];
+---
+
+<TeamLayout
+  title={pageTitle}
+  footerAddressKey="teamfooter_address_b5r331"
+  footerPhoneKey="teamfooter_phone_support"
+  navItems={navItems}
+>
+  <HeroSection
+    title={m.support_hero_title()}
+    imageUrl="/happy-technician-repaired-cpu.webp"
+    overlayOpacity={0.5}
+  />
+  <ServicesSection
+    title={m.support_services_title()}
+    subtitle={m.support_services_subtitle()}
+    services={services}
+    class="py-16 bg-base-100"
+  />
+  <TeamSection
+    title={m.support_team_title()}
+    subtitle={m.support_team_subtitle()}
+    description={m.support_team_description()}
+    members={teamMembers}
+    gridCols="grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
+    class="py-16"
+  />
+</TeamLayout>

@@ -1,0 +1,50 @@
+---
+import Layout from "./Layout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import RelatedDocuments from "../components/RelatedDocuments.astro";
+import BlogPostHeader from "../components/blog/BlogPostHeader.astro";
+import FeaturedImage from "../components/blog/FeaturedImage.astro";
+
+import type { Props } from "../types";
+import { calculateReadingTime } from "../utils/readingTime";
+
+const { frontmatter } = Astro.props as Props;
+const {
+  title,
+  authorInfo = { name: "ผู้เขียน", avatar: "", description: "" },
+  relatedDocuments = [],
+  breadcrumbLinks = [],
+  image,
+} = frontmatter;
+
+const content = await Astro.slots.render("default");
+const readingTime = await calculateReadingTime(content);
+---
+
+<Layout {title}>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="max-w-6xl mx-auto">
+      <Breadcrumb links={breadcrumbLinks} />
+      <article class="mt-8">
+        <BlogPostHeader {frontmatter} {readingTime} />
+        <FeaturedImage {image} />
+
+        <!-- Content -->
+        <div
+          class="prose sm:prose-lg max-w-none prose-p:text-base-content/90 prose-headings:text-base-content prose-a:text-primary hover:prose-a:text-primary-focus prose-code:bg-neutral prose-code:text-neutral-content prose-code:p-1 prose-code:rounded-md prose-pre:bg-neutral prose-pre:text-neutral-content"
+        >
+          <slot />
+        </div>
+
+        <!-- Footer sections -->
+        <RelatedDocuments documents={relatedDocuments} />
+        <AuthorBio
+          author={authorInfo.name}
+          avatar={authorInfo.avatar}
+          description={authorInfo.description}
+        />
+      </article>
+    </div>
+  </div>
+</Layout>

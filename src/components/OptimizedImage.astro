@@ -1,0 +1,34 @@
+---
+// src/components/OptimizedImage.astro
+import { Image } from "astro:assets";
+
+interface Props {
+  src: string; // Expect a URL string from Strapi
+  alt: string;
+  width: number;
+  height: number;
+  className?: string; // Use className to avoid conflict with reserved keyword
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "sync" | "auto";
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  className, // Destructure className
+  loading = "lazy",
+  decoding = "async",
+} = Astro.props;
+---
+
+<Image
+  {src}
+  {alt}
+  {width}
+  {height}
+  loading={loading}
+  decoding={decoding}
+  class={className}
+/>

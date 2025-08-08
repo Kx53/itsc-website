@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation.astro";
+import { isLocale, localizeHref } from "../../paraglide/runtime.js";
+import * as m from "../../paraglide/messages.js";
+import { Image } from "astro:assets";
+import logo from "../../assets/logo.png";
+
+const { locale, slug } = Astro.params;
+
+// Validate locale parameter
+if (!isLocale(locale)) {
+  return Astro.redirect("/");
+}
+
+// For now, redirect unknown routes to the homepage
+// In a real app, you might want to show a 404 page or handle specific routes
+if (slug) {
+  return Astro.redirect(localizeHref("/"));
+}
+---
+
+<Layout title={m.common_pageNotFound_title()}>
+  <div class="container mx-auto px-4">
+    <Navigation />
+    <main class="text-center py-20">
+      <Image src={logo} alt="ITSC Logo" class="w-48 mx-auto mb-8" />
+      <h1 class="text-4xl font-bold mb-4">{m.common_pageNotFound_heading()}</h1>
+      <p class="mb-8">{m.common_pageNotFound_message()}</p>
+      <p>
+        <a href={localizeHref("/")} class="text-primary hover:underline"
+          >&larr; {m.common_pageNotFound_backLink()}</a
+        >
+      </p>
+    </main>
+  </div>
+</Layout>

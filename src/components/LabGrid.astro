@@ -6,17 +6,16 @@ export interface Lab {
   details: string[];
 }
 
-import type { ui } from "@/i18n/ui";
+import * as m from "@/paraglide/messages";
 
 interface Props {
   labs: Lab[];
-  t: (key: keyof (typeof ui)[keyof typeof ui]) => string;
 }
 
-const { labs, t } = Astro.props;
+const { labs } = Astro.props;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
   {
     labs.map((lab) => (
       <div class="bg-base-200 rounded-lg overflow-hidden shadow-lg">
@@ -27,7 +26,7 @@ const { labs, t } = Astro.props;
 
         <div class="h-48 overflow-hidden bg-base-200 flex items-center justify-center">
           <span class="text-base-content/50">
-            {t("comlab.lab.image_placeholder")}
+            {m.comlab_lab_image_placeholder()}
           </span>
         </div>
 

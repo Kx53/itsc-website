@@ -1,0 +1,40 @@
+---
+// GuideGrid.astro - Grid container for displaying guide cards
+import { sampleGuideData } from "@/data/guides";
+import GuideCard from "./GuideCard.astro";
+import * as m from "@/paraglide/messages";
+---
+
+<!-- Cards Grid -->
+<div class="max-w-7xl mx-auto px-4 lg:px-28 mb-16">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+    id="guides-grid"
+  >
+    {
+      sampleGuideData.map((guide) => (
+        <div
+          class="guide-card-container"
+          data-category={guide.category.toLowerCase()}
+        >
+          <GuideCard guide={guide} />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<!-- No results message (hidden by default) -->
+<div id="no-results" class="hidden text-center py-16">
+  <div class="text-base-content/60 text-lg">{m.guide_no_results()}</div>
+</div>
+
+<style>
+  /* Ensure proper spacing on smaller screens */
+  @media (max-width: 640px) {
+    .max-w-7xl {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+</style>

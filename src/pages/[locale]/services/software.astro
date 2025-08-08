@@ -1,0 +1,100 @@
+---
+import TeamLayout from "@/layouts/TeamLayout.astro";
+import * as m from "@/paraglide/messages";
+
+// Shared Components
+import HeroSection from "@/components/shared/HeroSection.astro";
+import ServicesSection from "@/components/shared/ServicesSection.astro";
+import TitledSection from "@/components/shared/TitledSection.astro";
+
+// Unique Components for this page
+import PortfolioSection from "@/components/software/PortfolioSection.astro";
+import SoftSquareSystemSection from "@/components/software/SoftSquareSystemSection.astro";
+import TeamSection from "@/components/software/TeamSection.astro";
+
+const pageTitle = `${m.software_title()} - ${m.site_title()}`;
+
+// Define navigation items specific to software page
+const navItems = [
+  { href: "#hero", text: m.team_home() },
+  { href: "#services", text: m.team_services() },
+  { href: "#portfolio", text: m.team_portfolio() },
+  { href: "#about", text: m.team_about() },
+  { href: "#team", text: m.team_team() },
+  { href: "#contact", text: m.team_contact() },
+];
+
+// Data for ServicesSection
+const services = [
+  {
+    title: m.software_service_1_title(),
+    description: m.software_service_1_desc(),
+    icon: "fluent:person-wrench-20-filled",
+  },
+  {
+    title: m.software_service_2_title(),
+    description: m.software_service_2_desc(),
+    icon: "fluent:window-wrench-16-filled",
+  },
+  {
+    title: m.software_service_3_title(),
+    description: m.software_service_3_desc(),
+    icon: "fluent:people-16-filled",
+  },
+  {
+    title: m.software_service_4_title(),
+    description: m.software_service_4_desc(),
+    icon: "octicon:graph-16",
+  },
+];
+
+// Data for AboutSection
+const committees = [
+  "software_about_committee_1",
+  "software_about_committee_2",
+  "software_about_committee_3",
+  "software_about_committee_4",
+  "software_about_committee_5",
+  "software_about_committee_6",
+  "software_about_committee_7",
+  "software_about_committee_8",
+  "software_about_committee_9",
+];
+---
+
+<TeamLayout
+  title={pageTitle}
+  footerAddressKey="teamfooter_address_b6r506"
+  footerPhoneKey="teamfooter_phone_software"
+  navItems={navItems}
+>
+  <HeroSection
+    title={m.software_hero_title()}
+    imageUrl="/path/to/your/hero-image.jpg"
+  />
+  <ServicesSection
+    title={m.software_services_title()}
+    subtitle={m.software_services_subtitle()}
+    services={services}
+    class="py-16 bg-base-200"
+  />
+  <PortfolioSection />
+  <SoftSquareSystemSection />
+  <TitledSection
+    id="about"
+    title={m.software_about_title()}
+    subtitle={m.software_about_subtitle()}
+    class="py-16 bg-base-100"
+  >
+    <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+      {
+        committees.map((committeeKey) => (
+          <div class="badge badge-lg p-3 md:p-4 bg-base-300 border-none text-sm md:text-base leading-relaxed text-center min-h-fit">
+            {(m as any)[committeeKey]()}
+          </div>
+        ))
+      }
+    </div>
+  </TitledSection>
+  <TeamSection />
+</TeamLayout>

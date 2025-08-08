@@ -1,16 +1,26 @@
 ---
-// src/components/home/HeroSection.astro
+import HeroSlider from "./HeroSlider.astro";
+
+const banners = [
+  {
+    src: "https://picsum.photos/seed/picsum1/1920/1080",
+    alt: "Random image 1",
+  },
+  {
+    src: "https://picsum.photos/seed/picsum2/1920/1080",
+    alt: "Random image 2",
+  },
+  {
+    src: "https://picsum.photos/seed/picsum3/1920/1080",
+    alt: "Random image 3",
+  },
+  {
+    src: "https://picsum.photos/seed/picsum4/1920/1080",
+    alt: "Random image 4",
+  },
+];
 ---
 
-<div class="hero min-h-[60vh] bg-base-200">
-  <div class="hero-content text-center">
-    <div class="max-w-md">
-      <h1 class="text-5xl font-bold">สวัสดี!</h1>
-      <p class="py-6">
-        นี่คือพื้นที่สำหรับ Hero Section ชั่วคราว
-        คุณสามารถปรับเปลี่ยนเนื้อหาและดีไซน์ได้ในภายหลัง
-      </p>
-      <button class="btn btn-primary">เริ่มต้นใช้งาน</button>
-    </div>
-  </div>
-</div>
+<section class="w-full max-w-screen-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+  <HeroSlider banners={banners} />
+</section>

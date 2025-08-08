@@ -8,11 +8,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AuroraBackground: typeof import('./src/components/AuroraBackground.vue')['default']
-    AuroraBackgroundDemo: typeof import('./src/components/AuroraBackgroundDemo.vue')['default']
     DocumentLink: typeof import('./src/components/DocumentLink.vue')['default']
+    HeroSlider: typeof import('./src/components/home/HeroSlider.vue')['default']
     HighlightCarousel: typeof import('./src/components/home/HighlightCarousel.vue')['default']
     IconifyIcon: typeof import('./src/components/IconifyIcon.vue')['default']
+    PortfolioTable: typeof import('./src/components/software/PortfolioTable.vue')['default']
     SwiperCarousel: typeof import('./src/components/home/SwiperCarousel.vue')['default']
   }
 }

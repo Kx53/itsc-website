@@ -1,0 +1,50 @@
+---
+// src/components/blog/BlogPostHeader.astro
+import type { Props as PageProps } from "../../types";
+
+interface Props {
+  frontmatter: PageProps["frontmatter"];
+  readingTime: number;
+}
+
+const { frontmatter, readingTime } = Astro.props;
+const {
+  title,
+  description,
+  publishDate,
+  authorInfo = { name: "ผู้เขียน", avatar: "", description: "" },
+  tags = [],
+} = frontmatter;
+---
+
+<header>
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-2 mb-4">
+    {tags.map((tag) => <div class="badge badge-info gap-2">{tag}</div>)}
+  </div>
+
+  <!-- Title -->
+  <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight py-4">
+    {title}
+  </h1>
+
+  <!-- Description -->
+  <p class="lead mt-4 text-lg">{description}</p>
+
+  <!-- Meta Info -->
+  <div class="flex items-center text-sm text-base-content/60 mt-4">
+    <span>โดย {authorInfo.name}</span>
+    <span class="mx-2">•</span>
+    <time datetime={publishDate}>
+      {
+        new Date(publishDate).toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      }
+    </time>
+    <span class="mx-2">•</span>
+    <span>อ่านประมาณ {readingTime} นาที</span>
+  </div>
+</header>

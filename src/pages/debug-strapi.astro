@@ -1,0 +1,230 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import fetchApi from "@/lib/strapi";
+
+let debugInfo: any = {
+  strapiUrl: import.meta.env.STRAPI_URL || "http://localhost:1337",
+  hasToken: !!import.meta.env.STRAPI_TOKEN,
+  posts: null,
+  error: null,
+};
+
+// ทดสอบการเชื่อมต่อ Strapi
+try {
+  const result = await fetchApi({
+    endpoint: "posts",
+    query: {
+      "populate[author][populate]": "*",
+      "populate[contentTags][populate]": "*",
+      "populate[file][populate]": "*",
+      "populate[contentBlocks][populate]": "*",
+    },
+    unwrapData: true,
+  });
+
+  debugInfo.posts = result;
+} catch (error: any) {
+  debugInfo.error = {
+    message: error.message,
+    status: error.status,
+    details: error.details,
+  };
+}
+---
+
+<Layout title="Debug Strapi Connection">
+  <div class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold mb-8">🔍 Debug Strapi Connection</h1>
+
+      <div class="space-y-6">
+        <!-- Connection Info -->
+        <div class="card bg-base-100 shadow-lg">
+          <div class="card-body">
+            <h2 class="card-title">📡 Connection Info</h2>
+            <div class="space-y-2">
+              <p>
+                <strong>Strapi URL:</strong>
+                <code class="bg-base-200 px-2 py-1 rounded"
+                  >{debugInfo.strapiUrl}</code
+                >
+              </p>
+              <p>
+                <strong>Has Token:</strong>
+                <span
+                  class={`badge ${debugInfo.hasToken ? "badge-success" : "badge-warning"}`}
+                >
+                  {debugInfo.hasToken ? "Yes" : "No"}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Info -->
+        {
+          debugInfo.error && (
+            <div class="card bg-error text-error-content shadow-lg">
+              <div class="card-body">
+                <h2 class="card-title">❌ Error</h2>
+                <div class="space-y-2">
+                  <p>
+                    <strong>Message:</strong> {debugInfo.error.message}
+                  </p>
+                  {debugInfo.error.status && (
+                    <p>
+                      <strong>Status:</strong> {debugInfo.error.status}
+                    </p>
+                  )}
+                  {debugInfo.error.details && (
+                    <div>
+                      <strong>Details:</strong>
+                      <pre class="bg-base-100 text-base-content p-4 rounded mt-2 overflow-auto text-sm">
+                        {JSON.stringify(debugInfo.error.details, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Posts Data -->
+        {
+          debugInfo.posts && (
+            <div class="card bg-base-100 shadow-lg">
+              <div class="card-body">
+                <h2 class="card-title">📝 Posts Data</h2>
+                <div class="space-y-4">
+                  <p>
+                    <strong>Total Posts:</strong>{" "}
+                    <span class="badge badge-primary">
+                      {Array.isArray(debugInfo.posts)
+                        ? debugInfo.posts.length
+                        : "N/A"}
+                    </span>
+                  </p>
+
+                  {Array.isArray(debugInfo.posts) &&
+                  debugInfo.posts.length > 0 ? (
+                    <div>
+                      <h3 class="font-semibold mb-2">Available Posts:</h3>
+                      <div class="overflow-x-auto">
+                        <table class="table table-zebra w-full">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Document ID</th>
+                              <th>Title</th>
+                              <th>Slug</th>
+                              <th>Published</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {debugInfo.posts.map((post: any) => (
+                              <tr>
+                                <td>{post.id}</td>
+                                <td>
+                                  <code class="bg-primary/20 text-primary px-2 py-1 rounded text-sm font-mono">
+                                    {post.documentId || "No documentId"}
+                                  </code>
+                                </td>
+                                <td>{post.attributes?.title || "No title"}</td>
+                                <td>
+                                  <code class="bg-base-200 px-2 py-1 rounded text-sm">
+                                    {post.attributes?.slug || "No slug"}
+                                  </code>
+                                </td>
+                                <td>
+                                  <span
+                                    class={`badge ${post.attributes?.publishdate || post.attributes?.publishedAt ? "badge-success" : "badge-warning"}`}
+                                  >
+                                    {post.attributes?.publishdate ||
+                                    post.attributes?.publishedAt
+                                      ? "Yes"
+                                      : "Draft"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <div class="flex gap-1">
+                                    <a
+                                      href={`/posts/${post.documentId}`}
+                                      class="btn btn-primary btn-xs"
+                                      title="View with documentId (new)"
+                                    >
+                                      📄 New
+                                    </a>
+                                    <a
+                                      href={`/posts/${post.attributes?.slug}`}
+                                      class="btn btn-secondary btn-xs"
+                                      title="View with slug (old)"
+                                    >
+                                      🔗 Old
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ) : (
+                    <div class="alert alert-warning">
+                      <span>
+                        No posts found. Make sure you have published posts in
+                        Strapi.
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Raw Response -->
+        {
+          (debugInfo.posts || debugInfo.error) && (
+            <div class="card bg-base-100 shadow-lg">
+              <div class="card-body">
+                <h2 class="card-title">🔍 Raw Response</h2>
+                <pre class="bg-base-200 p-4 rounded overflow-auto text-sm max-h-96">
+                  {JSON.stringify(debugInfo.posts || debugInfo.error, null, 2)}
+                </pre>
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Quick Actions -->
+        <div class="card bg-base-100 shadow-lg">
+          <div class="card-body">
+            <h2 class="card-title">🚀 Quick Actions</h2>
+            <div class="flex flex-wrap gap-4">
+              <a href="/posts" class="btn btn-primary">View Posts Index</a>
+              <a
+                href={`${debugInfo.strapiUrl}/admin`}
+                target="_blank"
+                class="btn btn-secondary"
+              >
+                Open Strapi Admin
+              </a>
+              <a
+                href={`${debugInfo.strapiUrl}/api/posts`}
+                target="_blank"
+                class="btn btn-accent"
+              >
+                View API Directly
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

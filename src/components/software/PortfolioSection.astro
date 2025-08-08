@@ -1,0 +1,134 @@
+---
+import * as m from "@/paraglide/messages";
+import PortfolioTable from "./PortfolioTable.vue";
+
+const projects = [
+  {
+    id: 1,
+    name: "โครงการปรับปรุงพัฒนาระบบลงทะเบียนเรียน (ใหม่)",
+    description: "ระบบสารสนเทศ (RSU IS)",
+    status: "In Progress",
+  },
+  {
+    id: 2,
+    name: "โครงการปรับปรุงพัฒนาระบบลงทะเบียนเรียน (ใหม่)",
+    description: "ระบบ API ใหม่",
+    status: "In Progress",
+  },
+  {
+    id: 3,
+    name: "ระบบประเมินอาจารย์ผู้สอนและประเมินรายวิชา",
+    description: "",
+    status: "In Progress",
+  },
+  { id: 4, name: "ระบบ E-consent", description: "", status: "In Progress" },
+  { id: 5, name: "ระบบ Big Data (P1)", description: "", status: "In Progress" },
+  { id: 6, name: "ระบบเบิกโทเค็น", description: "", status: "In Progress" },
+  {
+    id: 7,
+    name: "เว็บไซต์สำนักบริการเทคโนโลยีสารสนเทศ",
+    description: "",
+    status: "In Progress",
+  },
+  {
+    id: 8,
+    name: "โครงการปรับปรุงพัฒนาระบบ ITSC Helpdesk",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 9,
+    name: "ระบบจองห้องคอมพิวเตอร์",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 10,
+    name: "ระบบอาจารย์ที่ปรึกษา - Plan B",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 11,
+    name: "ระบบรับสมัคร (MA P1)",
+    description: "MA, เพิ่มการรับสมัครหลักสูตรนานาชาติ (TH)",
+    status: "Completed",
+  },
+  {
+    id: 12,
+    name: "ระบบรับสมัครบัณฑิตวิทยาลัย",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 13,
+    name: "Function ส่วนลดค่าสมัครจาก Open House",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 14,
+    name: "ระบบจองอุปกรณ์ห้องเรียน",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 15,
+    name: "ระบบเช็คชื่อตรวจแถวงานรับปริญญา",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 16,
+    name: "ระบบยืนยันสิทธิ์มาตราการช่วยเหลือผลกระทบจาก Covid",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 17,
+    name: "ระบบ RSU Open House 2021",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 18,
+    name: "ระบบสแกน QR Code สำนักวินัยนักศึกษา",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 19,
+    name: "ระบบลงทะเบียนงาน Open House CPE.RSU in Metaverse",
+    description: "",
+    status: "Completed",
+  },
+  {
+    id: 20,
+    name: "ระบบค้นหาห้องสอบ สำนักงานรับสมัครนักศึกษา",
+    description: "",
+    status: "Completed",
+  },
+  { id: 21, name: "ระบบ RSU Connect", description: "", status: "Completed" },
+  {
+    id: 22,
+    name: "ระบบ Soft square",
+    description: "23 ระบบ",
+    status: "Completed",
+  },
+];
+---
+
+<section id="portfolio" class="py-16">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+        {m.software_portfolio_title()}
+      </h2>
+      <p class="text-lg md:text-xl text-base-content/60 max-w-3xl mx-auto">
+        {m.software_portfolio_subtitle()}
+      </p>
+    </div>
+
+    <PortfolioTable client:load projects={projects} />
+  </div>
+</section>

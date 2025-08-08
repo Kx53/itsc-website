@@ -1,0 +1,98 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import fetchApi from "@/lib/strapi";
+
+// Fetch all published posts
+let posts: any[] = [];
+
+try {
+  const result = await fetchApi({
+    endpoint: "posts",
+    query: {
+      "populate[author][populate]": "*",
+      "populate[contentTags][populate]": "*",
+      sort: "publishdate:desc",
+      "pagination[pageSize]": "10",
+    },
+    unwrapData: true,
+  });
+
+  posts = Array.isArray(result) ? result : [];
+} catch (error) {
+  console.error("Error fetching posts:", error);
+  posts = [];
+}
+---
+
+<Layout title="บทความทั้งหมด">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-base-content mb-8">บทความทั้งหมด</h1>
+
+      {
+        posts.length === 0 ? (
+          <div class="text-center py-12">
+            <p class="text-base-content/60">ยังไม่มีบทความที่เผยแพร่</p>
+          </div>
+        ) : (
+          <div class="grid gap-8">
+            {posts.map((post) => {
+              // Handle both old (.attributes) and new (direct) API response structure
+              const attrs = post.attributes || post;
+              const authorName =
+                attrs?.author?.data?.attributes?.name ||
+                attrs?.author?.name ||
+                "ITSC Team";
+              const publishDate = new Date(
+                attrs.publishdate || attrs.publishedAt || attrs.createdAt
+              ).toLocaleDateString("th-TH");
+
+              return (
+                <article class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+                  <div class="card-body">
+                    <h2 class="card-title text-2xl">
+                      <a
+                        href={`/posts/${post.documentId}`}
+                        class="link link-hover"
+                      >
+                        {attrs.title}
+                      </a>
+                    </h2>
+
+                    {attrs.description && (
+                      <p class="text-base-content/80 mb-4">
+                        {attrs.description}
+                      </p>
+                    )}
+
+                    <div class="flex flex-wrap gap-2 mb-4">
+                      {attrs.contentTags?.data?.map((tag: any) => (
+                        <span class="badge badge-primary badge-sm">
+                          {tag.attributes?.name || tag.name}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div class="card-actions justify-between items-center">
+                      <div class="text-sm text-base-content/60">
+                        โดย {authorName} • {publishDate}
+                      </div>
+                      <a
+                        href={`/posts/${post.documentId}`}
+                        class="btn btn-primary btn-sm"
+                      >
+                        อ่านต่อ
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</Layout>

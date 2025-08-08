@@ -1,0 +1,58 @@
+---
+import * as m from "@/paraglide/messages";
+
+const prevText = m.guide_page_prev();
+const nextText = m.guide_page_next();
+---
+
+<div
+  class="pagination-container flex justify-center items-center py-8"
+  data-prev-text={prevText}
+  data-next-text={nextText}
+>
+  <!-- Pagination controls will be rendered here by client-side script -->
+</div>
+
+<style>
+  .pagination-container .join .btn {
+    border: none;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .pagination-container .join .btn:hover:not(.btn-disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .pagination-container .join .btn.btn-disabled {
+    background: var(--fallback-b2, oklch(var(--b2) / 1));
+    color: var(--fallback-bc, oklch(var(--bc) / 0.5));
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .pagination-container .join {
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .pagination-container .join .btn {
+      min-height: 2.5rem;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .pagination-container .join .btn span {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pagination-container .join .btn span {
+      display: none;
+    }
+
+    .pagination-container .join .btn svg {
+      margin: 0;
+    }
+  }
+</style>

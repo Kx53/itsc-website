@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  imageUrl?: string;
+  overlayOpacity?: number;
+  id?: string;
+}
+
+const { title, imageUrl, overlayOpacity = 0.5, id = "hero" } = Astro.props;
+
+// Generate background style
+const backgroundStyle = imageUrl ? `background-image: url('${imageUrl}');` : "";
+
+// Generate overlay opacity class
+const overlayClass = `bg-base-300/${Math.round(overlayOpacity * 100)}`;
+---
+
+<section
+  id={id}
+  class="relative h-[50vh] md:h-[60vh] min-h-[300px] max-h-[600px] flex items-center justify-center text-center text-base-content overflow-hidden"
+>
+  <div class="absolute inset-0 bg-cover bg-center" style={backgroundStyle}>
+    <div class={`absolute inset-0 ${overlayClass} backdrop-blur-sm`}></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1
+      class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-base-content/80 whitespace-pre-line"
+    >
+      {title}
+    </h1>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+---
+import SearchBox from "@/components/shared/SearchBox.astro";
+---
+
+<section class="py-8 md:py-12">
+  <!-- Search Box -->
+  <div class="w-full flex justify-center px-4">
+    <SearchBox id="news-search" />
+  </div>
+</section>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const searchInput = document.getElementById(
+      "news-search"
+    ) as HTMLInputElement;
+
+    // Debounce function to limit how often a function gets called.
+    function debounce(func: Function, delay: number) {
+      let timeoutId: number;
+      return (...args: any[]) => {
+        clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+          func.apply(null, args);
+        }, delay);
+      };
+    }
+
+    // Handle search input
+    if (searchInput) {
+      searchInput.addEventListener(
+        "input",
+        debounce((e: Event) => {
+          const searchTerm = (e.target as HTMLInputElement).value;
+          document.dispatchEvent(
+            new CustomEvent("newsSearch", { detail: { searchTerm } })
+          );
+        }, 300)
+      );
+    }
+  });
+</script>

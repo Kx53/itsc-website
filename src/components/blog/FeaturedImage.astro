@@ -1,0 +1,44 @@
+---
+// src/components/blog/FeaturedImage.astro
+import type { Props as PageProps } from "../../types";
+
+interface Props {
+  image: PageProps["frontmatter"]["image"];
+}
+
+const { image } = Astro.props;
+
+// Check if image src is external URL (from Strapi) or local asset
+const isExternalUrl = image?.src?.startsWith("http");
+---
+
+{
+  image && (
+    <figure class="my-8">
+      {isExternalUrl ? (
+        <img
+          src={image.src}
+          alt={image.alt}
+          width="1200"
+          height="630"
+          class="w-full h-auto rounded-lg bg-base-200"
+          loading="lazy"
+        />
+      ) : (
+        <img
+          src={image.src}
+          alt={image.alt}
+          width="1200"
+          height="630"
+          class="w-full h-auto rounded-lg bg-base-200"
+          loading="lazy"
+        />
+      )}
+      {image.caption && (
+        <figcaption class="text-center text-sm text-base-content/60 mt-2">
+          {image.caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}

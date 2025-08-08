@@ -1,0 +1,52 @@
+---
+// GuideCategoryFilters.astro - Category filter buttons for the guide page
+import * as m from "@/paraglide/messages";
+
+const categories = [
+  { id: "all", name: "All", active: true },
+  { id: "Category1", name: "Category 1", active: false },
+  { id: "Category2", name: "Category 2", active: false },
+  { id: "Technology", name: "Technology", active: false },
+];
+---
+
+<!-- Category Filter Buttons -->
+<div class="flex flex-wrap justify-center gap-4 mb-16">
+  {
+    categories.map((category) => (
+      <button
+        class:list={[
+          "btn rounded-xl px-4 py-2 text-sm md:text-base font-normal transition-all duration-200",
+          category.active
+            ? "bg-primary text-primary-content hover:bg-primary/90"
+            : "bg-base-200 text-base-content hover:bg-base-300",
+        ]}
+        data-category={category.id}
+        data-category-active={category.active}
+      >
+        {category.name}
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  /* Custom scrollbar for mobile */
+  @media (max-width: 768px) {
+    .flex-wrap {
+      justify-content: flex-start;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .flex-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .btn {
+      flex-shrink: 0;
+    }
+  }
+</style>

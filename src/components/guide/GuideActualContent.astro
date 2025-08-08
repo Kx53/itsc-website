@@ -1,0 +1,27 @@
+---
+// GuideActualContent.astro - Main container for the guide page content
+import * as m from "@/paraglide/messages";
+import GuideHeader from "./GuideHeader.astro";
+import GuideCategoryFilters from "./GuideCategoryFilters.astro";
+import GuideGrid from "./GuideGrid.astro";
+import GuidePagination from "./GuidePagination.astro";
+---
+
+<div
+  class="w-full pt-24 md:pt-28 lg:pt-24"
+  role="main"
+  aria-label={m.guide_title()}
+>
+  <GuideHeader />
+  <GuideCategoryFilters />
+  <GuideGrid />
+  <GuidePagination />
+</div>
+
+<script>
+  import { initializeGuideFilter } from "@/script/guide-filter.js";
+
+  document.addEventListener("astro:page-load", () => {
+    initializeGuideFilter();
+  });
+</script>

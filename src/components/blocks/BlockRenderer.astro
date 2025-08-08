@@ -1,0 +1,45 @@
+---
+import { Image } from "astro:assets";
+import { marked } from "marked";
+
+const { blocks } = Astro.props;
+
+// Helper function to build Strapi media URL
+function getStrapiMedia(url: string | undefined): string | null {
+  if (!url) return null;
+  const STRAPI_URL = import.meta.env.STRAPI_URL || "http://localhost:1337";
+  return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
+}
+---
+
+<div>
+  {
+    blocks?.map((block: any) => {
+      switch (block.__component) {
+        case "shared.rich-text-block":
+          return <div set:html={marked.parse(block.body)} />;
+        case "shared.image-block":
+          const imageUrl = getStrapiMedia(block.image?.data?.attributes?.url);
+          if (!imageUrl) return null;
+          return (
+            <figure class="my-8">
+              <Image
+                src={imageUrl}
+                alt={block.image?.data?.attributes?.alternativeText || ""}
+                width={block.image?.data?.attributes?.width || 800}
+                height={block.image?.data?.attributes?.height || 600}
+                class="rounded-lg shadow-lg"
+              />
+              {block.caption && (
+                <figcaption class="text-center text-sm text-base-content/70 mt-2">
+                  {block.caption}
+                </figcaption>
+              )}
+            </figure>
+          );
+        default:
+          return null;
+      }
+    })
+  }
+</div>
